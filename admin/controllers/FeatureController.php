@@ -13,7 +13,7 @@ use cmsgears\listing\common\config\ListingGlobal;
 
 use cmsgears\core\common\models\entities\ObjectData;
 
-use cmsgears\subscription\admin\services\FeatureService;
+use cmsgears\subscription\admin\services\FeatureService; 
 
 class FeatureController extends \cmsgears\core\admin\controllers\base\Controller {
 
