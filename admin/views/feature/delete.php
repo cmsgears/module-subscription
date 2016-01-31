@@ -17,6 +17,7 @@ $this->title 	= 'Delete Feature | ' . $coreProperties->getSiteTitle();
 	    	<?= $form->field( $model, 'name' )->textInput( [ 'readonly' => 'true' ] ) ?>
 	    	<?= $form->field( $model, 'description' )->textarea( [ 'readonly' => 'true' ] ) ?>
 			<?= $form->field( $model, 'active' )->checkbox( [ 'readonly' => 'true' ] ) ?>
+			<?= $form->field( $model, 'icon' ) ?>
 		</div>  
 		<div class="filler-height"></div>
 

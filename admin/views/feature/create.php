@@ -17,6 +17,7 @@ $this->title 	= 'Add Feature | ' . $coreProperties->getSiteTitle();
 	    	<?= $form->field( $model, 'name' ) ?>
 	    	<?= $form->field( $model, 'description' )->textarea() ?>
 			<?= $form->field( $model, 'active' )->checkbox() ?>
+			<?= $form->field( $model, 'icon' ) ?>
 		</div>  
 		<div class="filler-height"></div>
 

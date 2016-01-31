@@ -25,7 +25,6 @@ $this->title 	= 'Add Plan | ' . $coreProperties->getSiteTitle();
 					<?= $form->field( $planFeatures[ $key ], "[$key]featureId" )->hiddenInput( [ 'value' => $feature['id'] ] )->label( false ) ?>
 					<div class="frm-split-40-60 clearfix">
 						<?= $form->field( $planFeatures[ $key ], "[$key]htmlOptions" )->textInput( [ "placeholder" => "html options" ] ) ?>
-						<?= $form->field( $planFeatures[ $key ], "[$key]icon" )->textInput( [ "placeholder" => "label" ] ) ?>
 						<?= $form->field( $planFeatures[ $key ], "[$key]order" )->textInput( [ "placeholder" => "order" ] ) ?>
 					</div>
 				</span>

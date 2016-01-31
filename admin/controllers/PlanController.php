@@ -9,7 +9,6 @@ use yii\web\NotFoundHttpException;
 // CMG Imports
 use cmsgears\core\common\config\CoreGlobal;
 use cmsgears\subscription\common\config\SubscriptionGlobal;
-use cmsgears\listing\common\config\ListingGlobal;
 
 use cmsgears\core\common\models\entities\ObjectData;
 use cmsgears\subscription\common\models\forms\PlanFeature;

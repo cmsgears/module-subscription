@@ -2,7 +2,7 @@
 namespace cmsgears\subscription\admin\controllers;
 
 // Yii Imports
-use \Yii; 
+use \Yii;
 use yii\filters\VerbFilter;
 use yii\web\NotFoundHttpException;
 
@@ -13,7 +13,7 @@ use cmsgears\listing\common\config\ListingGlobal;
 
 use cmsgears\core\common\models\entities\ObjectData;
 
-use cmsgears\subscription\admin\services\FeatureService; 
+use cmsgears\subscription\admin\services\FeatureService;
 
 class FeatureController extends \cmsgears\core\admin\controllers\base\Controller {
 
@@ -89,8 +89,10 @@ class FeatureController extends \cmsgears\core\admin\controllers\base\Controller
 			$model->setScenario( 'update' );
 			
 			if( $model->load( Yii::$app->request->post(), 'ObjectData' ) && $model->validate() ) {
-	
+
 				FeatureService::update( $model );
+
+				$this->redirect( [ 'all' ] );
 			}
 	
 	    	return $this->render( 'update', [

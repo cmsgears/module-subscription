@@ -1,5 +1,5 @@
 <?php
-namespace cmsgears\cart\common\models\entities;
+namespace cmsgears\subscription\common\models\entities;
 
 // Yii Imports
 use \Yii;
