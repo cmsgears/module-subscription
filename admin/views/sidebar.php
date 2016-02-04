@@ -11,7 +11,7 @@ $user	= Yii::$app->user->getIdentity();
 <?php if( $core->hasModule( 'cmgsubscription' ) && $user->isPermitted( 'user' ) ) { ?>
 	<div id="sidebar-listing" class="collapsible-tab has-children <?php if( strcmp( $parent, 'sidebar-subscription' ) == 0 ) echo 'active';?>">
 		<div class="collapsible-tab-header clearfix">
-			<div class="colf colf5 wrap-icon"><span class="cmti cmti-list"></span></div>
+			<div class="colf colf5 wrap-icon"><span class="cmti cmti-newspaper"></span></div>
 			<div class="colf colf5x4">Subscriptions</div>
 		</div>
 		<div class="collapsible-tab-content clear <?php if( strcmp( $parent, 'sidebar-subscription' ) == 0 ) echo 'expanded visible';?>">
