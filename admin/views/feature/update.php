@@ -3,6 +3,9 @@
 use yii\widgets\ActiveForm;
 use yii\helpers\Html;
 
+// CMG Imports
+use cmsgears\icons\widgets\IconChooser;
+
 $coreProperties = $this->context->getCoreProperties();
 $this->title 	= 'Update Feature | ' . $coreProperties->getSiteTitle();
 ?>
@@ -15,9 +18,9 @@ $this->title 	= 'Update Feature | ' . $coreProperties->getSiteTitle();
 
 		<div class="frm-split frm-split-40-60 clearfix">
 	    	<?= $form->field( $model, 'name' ) ?>
+	    	<?= IconChooser::widget( [ 'model' => $model, 'options' => [ 'class' => 'wrap-icon-picker clearfix' ] ] ) ?>
 	    	<?= $form->field( $model, 'description' )->textarea() ?>
 			<?= $form->field( $model, 'active' )->checkbox() ?>
-			<?= $form->field( $model, 'icon' ) ?>
 		</div>  
 		<div class="filler-height"></div>
 

@@ -60,6 +60,7 @@ if( !isset( $sortOrder ) ) {
 							<span sort-order='-name' class="icon-sort <?php if( strcmp( $sortOrder, '-name') == 0 ) echo 'icon-down-active'; else echo 'icon-down';?>"></span>
 						</span>
 					</th>
+					<th>Icon</th>
 					<th>Active</th>
 					<th>Description</th>
 					<th>Actions</th>
@@ -74,9 +75,10 @@ if( !isset( $sortOrder ) ) {
 				?>
 					<tr>
 						<td><?= $feature->name ?></td>
+						<td> <span class="<?= $feature->icon ?>" title="<?= $feature->name ?>"></span></td>
 						<td><?= $feature->getActiveStr() ?></td>
 						<td><?= $feature->description ?></td>
-						<td>
+						<td class="actions">
 							<span title="Update Menu"><?= Html::a( "", [ "update?slug=$slug" ], [ 'class' => 'cmti cmti-edit' ] )  ?></span>
 							<span title="Delete Menu"><?= Html::a( "", [ "delete?slug=$slug" ], [ 'class' => 'cmti cmti-close-c-o' ] )  ?></span>
 						</td>
