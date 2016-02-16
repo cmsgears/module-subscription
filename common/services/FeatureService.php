@@ -28,12 +28,6 @@ class FeatureService extends \cmsgears\core\common\services\ObjectDataService {
 	 */
 	public static function findIdNameList() {
 
-		return self::getIdNameList( [ 'conditions' => [ 'type' => SubscriptionGlobal::TYPE_FEATURE, 'active'  => 1 ] ] );
+		return self::getIdNameList( [ 'conditions' => [ 'type' => SubscriptionGlobal::TYPE_FEATURE ] ] );
 	}
-	
-	//Create -----------------
-	
-	//Update -----------------
-	
-	//Delete -----------------
 }

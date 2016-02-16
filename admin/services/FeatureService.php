@@ -46,10 +46,4 @@ class FeatureService extends \cmsgears\subscription\common\services\FeatureServi
 
 		return self::getDataProvider( new ObjectData(), $config );
 	}
-	
-	//Create -----------------
-	
-	//Update -----------------
-	
-	//Delete -----------------
 }

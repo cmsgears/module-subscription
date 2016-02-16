@@ -9,7 +9,6 @@ use yii\web\NotFoundHttpException;
 // CMG Imports
 use cmsgears\core\common\config\CoreGlobal;
 use cmsgears\subscription\common\config\SubscriptionGlobal;
-use cmsgears\listing\common\config\ListingGlobal;
 
 use cmsgears\core\common\models\entities\ObjectData;
 
@@ -36,13 +35,19 @@ class FeatureController extends \cmsgears\core\admin\controllers\base\Controller
             'rbac' => [
                 'class' => Yii::$app->cmgCore->getRbacFilterClass(),
                 'actions' => [
-	                'all'  => [ 'permission' => SubscriptionGlobal::PERM_SUBSCRIPTION ], 
+	                'all' => [ 'permission' => SubscriptionGlobal::PERM_SUBSCRIPTION ],
+	                'create' => [ 'permission' => SubscriptionGlobal::PERM_SUBSCRIPTION ],
+	                'update' => [ 'permission' => SubscriptionGlobal::PERM_SUBSCRIPTION ],
+	                'delete' => [ 'permission' => SubscriptionGlobal::PERM_SUBSCRIPTION ] 
                 ]
             ],
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
-	                'all'  => [ 'get' ],
+	                'all' => [ 'get' ],
+	                'create' => [ 'get', 'post' ],
+	                'update' => [ 'get', 'post' ],
+	                'delete' => [ 'get', 'post' ]
                 ]
             ]
         ];
@@ -66,12 +71,12 @@ class FeatureController extends \cmsgears\core\admin\controllers\base\Controller
 		$model->type	= SubscriptionGlobal::TYPE_FEATURE; 
 
 		$model->setScenario( 'create' );
-		
+
 		if( $model->load( Yii::$app->request->post(), 'ObjectData' ) && $model->validate() ) {
 
 			if( FeatureService::create( $model ) ) {
-				
-				$this->redirect( [ 'all' ] );
+
+				return $this->redirect( [ 'all' ] );
 			}
 		}
 
@@ -79,46 +84,46 @@ class FeatureController extends \cmsgears\core\admin\controllers\base\Controller
     		'model' => $model
     	]);
 	}
-	
+
 	public function actionUpdate( $slug ) {
 
-		$model			= FeatureService::findBySlug( $slug );
-		
+		$model	= FeatureService::findBySlug( $slug );
+
 		if( isset( $model ) ) {
-				
+
 			$model->setScenario( 'update' );
-			
+
 			if( $model->load( Yii::$app->request->post(), 'ObjectData' ) && $model->validate() ) {
 
 				FeatureService::update( $model );
 
-				$this->redirect( [ 'all' ] );
+				return $this->redirect( [ 'all' ] );
 			}
-	
+
 	    	return $this->render( 'update', [
 	    		'model' => $model
 	    	]);
-		}	
-		
+		}
+
 		// Model not found
 		throw new NotFoundHttpException( Yii::$app->cmgCoreMessage->getMessage( CoreGlobal::ERROR_NOT_FOUND ) );
 	}
-	
+
 	public function actionDelete( $slug ) {
 
 		// Find Model
 		$model	= FeatureService::findBySlug( $slug );
 
 		// Delete/Render if exist
-		if( isset( $model ) ) { 
+		if( isset( $model ) ) {
 
 			if( $model->load( Yii::$app->request->post(), 'ObjectData' ) ) {
 
 				if( FeatureService::delete( $model ) ) {
 
-					$this->redirect( [ 'all' ] );
+					return $this->redirect( [ 'all' ] );
 				}
-			} 
+			}
 
 	    	return $this->render( 'delete', [
 	    		'model' => $model
@@ -128,7 +133,6 @@ class FeatureController extends \cmsgears\core\admin\controllers\base\Controller
 		// Model not found
 		throw new NotFoundHttpException( Yii::$app->cmgCoreMessage->getMessage( CoreGlobal::ERROR_NOT_FOUND ) );	
 	}
-	 
 }
 
 ?>

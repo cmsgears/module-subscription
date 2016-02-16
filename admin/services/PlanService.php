@@ -2,56 +2,48 @@
 namespace cmsgears\subscription\admin\services;
 
 // Yii Imports
-use \Yii; 
+use \Yii;
+use yii\data\Sort;
 
 // CMG Imports
 use cmsgears\subscription\common\config\SubscriptionGlobal;
 
-use cmsgears\core\common\utilities\SortUtil;
+use cmsgears\core\common\models\entities\ObjectData;
 
 class PlanService extends  \cmsgears\subscription\common\services\PlanService {
-	
-	//Read ------------------- 
-	
-	//Create -----------------
-	
-	//Update -----------------
-	
-	/**
-	 * @param array $features
-	 * @return boolean
-	 */
-	public static function updateFeatures( $plan, $features ) {
 
-		$plan		= self::findById( $plan->id );
-		$objectData	= $plan->generateObjectFromJson();
+	public static function getPagination( $config = [] ) {
 
-		// Clear all existing mappings
-		$objectData->features	= [];
+	    $sort = new Sort([
+	        'attributes' => [
+	            'name' => [
+	                'asc' => [ 'name' => SORT_ASC ],
+	                'desc' => ['name' => SORT_DESC ],
+	                'default' => SORT_DESC,
+	                'label' => 'name',
+	            ]
+	        ]
+	    ]);
 
-		// Add Features
-		if( isset( $features ) && count( $features ) > 0 ) {
+		if( !isset( $config[ 'conditions' ] ) ) {
 
-			foreach ( $features as $feature ) {
-
-				if( isset( $feature->feature ) && $feature->feature ) {
-
-					if( !isset( $feature->order ) || strlen( $feature->order ) == 0 ) {
-
-						$feature->order	= 0;
-					}
-
-					$objectData->features[] 	= $feature;
-				}
-			}
+			$config[ 'conditions' ]	= [];
 		}
 
-		$objectData->features	= SortUtil::sortObjectArrayByNumber( $objectData->features, 'order', true );
+		$config[ 'conditions' ][ 'type' ] =  SubscriptionGlobal::TYPE_PLAN;
 
-		$plan->generateJsonFromObject( $objectData );
+		if( !isset( $config[ 'sort' ] ) ) {
 
-		$plan->update();
+			$config[ 'sort' ] = $sort;
+		}
 
-		return true;
+		if( !isset( $config[ 'search-col' ] ) ) {
+
+			$config[ 'search-col' ] = 'name';
+		}
+
+		return self::getDataProvider( new ObjectData(), $config );
 	}
 }
+
+?>

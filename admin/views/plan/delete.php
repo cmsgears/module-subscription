@@ -19,13 +19,13 @@ $this->title 	= 'Delete Plan | ' . $coreProperties->getSiteTitle();
 
 		<div class="box-content clearfix">
 			<div class="header">Update Features</div>
-			<?php foreach ( $features as $key => $feature ) { ?>
+			<?php foreach ( $featuresList as $key => $feature ) { ?>
 				<span class="box-half">
-					<?= $form->field( $planFeatures[ $key ], "[$key]feature" )->checkbox( [ 'label' => $feature[ 'name' ], 'readonly' => true ] ) ?>
+					<?= $form->field( $planFeatures[ $key ], "[$key]feature" )->checkbox( [ 'label' => $feature[ 'name' ], 'disabled' => true ] ) ?>
 					<?= $form->field( $planFeatures[ $key ], "[$key]featureId" )->hiddenInput( [ 'value' => $feature['id'] ] )->label( false ) ?>
 					<div class="frm-split-40-60 clearfix">
-						<?= $form->field( $planFeatures[ $key ], "[$key]htmlOptions" )->textInput( [ "placeholder" => "html options" ] ) ?>
-						<?= $form->field( $planFeatures[ $key ], "[$key]order" )->textInput( [ "placeholder" => "order" ] ) ?>
+						<?= $form->field( $planFeatures[ $key ], "[$key]htmlOptions" )->textInput( [ 'placeholder' => 'html options', 'readonly' => true ] ) ?>
+						<?= $form->field( $planFeatures[ $key ], "[$key]order" )->textInput( [ 'placeholder' => 'order', 'readonly' => true ] ) ?>
 					</div>
 				</span>
 			<?php } ?>

@@ -11,10 +11,17 @@ use cmsgears\subscription\common\config\SubscriptionGlobal;
 use cmsgears\core\common\models\entities\ObjectData;
 use cmsgears\subscription\common\models\forms\PlanFeature;
 
+use cmsgears\core\common\utilities\SortUtil;
+
 class PlanService extends \cmsgears\core\common\services\ObjectDataService {
-	
-	//Read -------------------
-	
+
+	// Read -------------------
+
+	public static function findBySlug( $slug ) {
+
+		return self::findBySlugType( $slug, SubscriptionGlobal::TYPE_PLAN );
+	}
+
 	public static function getFeatures( $plan, $associative = false ) {
 
 		$objectData		= $plan->generateObjectFromJson();
@@ -66,29 +73,14 @@ class PlanService extends \cmsgears\core\common\services\ObjectDataService {
 
 		return $featureObjects;
 	}
-	
-	
+
+	// Data Provider ----
+
 	/**
-	 * @param string $slug
-	 * @return ObjectData
+	 * @param array $config to generate query
+	 * @return ActiveDataProvider
 	 */
-	public static function findBySlug( $slug ) {
-
-		return self::findBySlugType( $slug, SubscriptionGlobal::TYPE_PLAN );
-	}  
-	
 	public static function getPagination( $config = [] ) {
-
-	    $sort = new Sort([
-	        'attributes' => [
-	            'name' => [
-	                'asc' => [ 'name' => SORT_ASC ],
-	                'desc' => ['name' => SORT_DESC ],
-	                'default' => SORT_DESC,
-	                'label' => 'name',
-	            ]
-	        ]
-	    ]);
 
 		if( !isset( $config[ 'conditions' ] ) ) {
 
@@ -97,22 +89,44 @@ class PlanService extends \cmsgears\core\common\services\ObjectDataService {
 
 		$config[ 'conditions' ][ 'type' ] =  SubscriptionGlobal::TYPE_PLAN;
 
-		if( !isset( $config[ 'sort' ] ) ) {
-
-			$config[ 'sort' ] = $sort;
-		}
-
-		if( !isset( $config[ 'search-col' ] ) ) {
-
-			$config[ 'search-col' ] = 'name';
-		}
-
 		return self::getDataProvider( new ObjectData(), $config );
 	}
-	
-	//Create -----------------
-	
-	//Update -----------------
-	
-	//Delete -----------------
+
+	// Update -----------------
+
+	public static function updateFeatures( $plan, $features ) {
+
+		$plan		= self::findById( $plan->id );
+		$objectData	= $plan->generateObjectFromJson();
+
+		// Clear all existing mappings
+		$objectData->features	= [];
+
+		// Add Features
+		if( isset( $features ) && count( $features ) > 0 ) {
+
+			foreach ( $features as $feature ) {
+
+				if( isset( $feature->feature ) && $feature->feature ) {
+
+					if( !isset( $feature->order ) || strlen( $feature->order ) == 0 ) {
+
+						$feature->order	= 0;
+					}
+
+					$objectData->features[] = $feature;
+				}
+			}
+		}
+
+		$objectData->features	= SortUtil::sortObjectArrayByNumber( $objectData->features, 'order', true );
+
+		$plan->generateJsonFromObject( $objectData );
+
+		$plan->update();
+
+		return true;
+	}
 }
+
+?>

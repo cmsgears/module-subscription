@@ -19,7 +19,7 @@ $this->title 	= 'Add Plan | ' . $coreProperties->getSiteTitle();
 
 		<div class="box-content clearfix">
 			<div class="header">Link Features</div>
-			<?php foreach ( $features as $key => $feature ) { ?>
+			<?php foreach ( $featuresList as $key => $feature ) { ?>
 				<span class="box-half">
 					<?= $form->field( $planFeatures[ $key ], "[$key]feature" )->checkbox( [ 'label' => $feature[ 'name' ] ] ) ?>
 					<?= $form->field( $planFeatures[ $key ], "[$key]featureId" )->hiddenInput( [ 'value' => $feature['id'] ] )->label( false ) ?>
