@@ -72,7 +72,7 @@ class PlanController extends \cmsgears\core\admin\controllers\base\Controller {
 		$model->siteId	= Yii::$app->cmgCore->siteId;
 		$model->type	= SubscriptionGlobal::TYPE_PLAN; 
 		$model->data	= "{ \"features\": {} }";
-		$featuresList	= FeatureService::findIdNameList();
+		$featuresList	= FeatureService::findActiveFeatures();
 
 		$model->setScenario( 'create' );
 
@@ -111,7 +111,7 @@ class PlanController extends \cmsgears\core\admin\controllers\base\Controller {
 
 			$model->setScenario( 'update' );
 
-			$featuresList	= FeatureService::findIdNameList();
+			$featuresList	= FeatureService::findActiveFeatures();
 			$planFeatures	= PlanService::getFeaturesForUpdate( $model, $featuresList );
 
 			if( $model->load( Yii::$app->request->post(), 'ObjectData' ) && PlanFeature::loadMultiple( $planFeatures, Yii::$app->request->post(), 'PlanFeature' ) && 
@@ -143,7 +143,7 @@ class PlanController extends \cmsgears\core\admin\controllers\base\Controller {
 		// Delete/Render if exist
 		if( isset( $model ) ) {
 
-			$featuresList	= FeatureService::findIdNameList();
+			$featuresList	= FeatureService::findActiveFeatures();
 			$planFeatures	= PlanService::getFeaturesForUpdate( $model, $featuresList );
 
 			if( $model->load( Yii::$app->request->post(), 'ObjectData' ) ) {
