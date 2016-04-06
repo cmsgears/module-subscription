@@ -10,23 +10,61 @@ use yii\helpers\ArrayHelper;
 use cmsgears\core\common\config\CoreGlobal;
 use cmsgears\cart\common\config\CartGlobal;
 
-use cmsgears\core\common\models\entities\NamedCmgEntity;
+class Voucher extends \cmsgears\cart\common\models\entities\Voucher {
 
-class Voucher extends cmsgears\cart\common\models\entities\Voucher {
+	// Variables ---------------------------------------------------
+
+	// Constants/Statics --
 
 	const TYPE_SUBSCRIPTION_SETUP			=  200;
 	const TYPE_SUBSCRIPTION_SETUP_PERCENT	=  210;
 	const TYPE_SUBSCRIPTION_RECURRING		=  220;
 
-	public static $typesMap = [
-	    self::TYPE_CART  => 'Cart $',
-	    self::TYPE_CART_PERCENT => 'Cart %',
-	    self::TYPE_PRODUCT => 'Product $',
-	    self::TYPE_PRODUCT_PERCENT => 'Product %',
-	    self::TYPE_SUBSCRIPTION_SETUP => 'Setup $',
-	    self::TYPE_SUBSCRIPTION_SETUP_PERCENT => 'Setup %',
-	    self::TYPE_SUBSCRIPTION_RECURRING => 'Recurring'
-	];
+	// Public -------------
+
+	// Private/Protected --
+
+	// Traits ------------------------------------------------------
+
+	// Constructor and Initialisation ------------------------------
+
+	// Instance Methods --------------------------------------------
+
+	// <Yii Interfaces > -----------------
+
+	// yii\base\Component ----------------
+
+	// yii\base\Model --------------------
+
+	// < parent class > ------------------
+
+	// <CMG Interfaces > -----------------
+
+	// <Model> ---------------------------
+
+	// Static Methods ----------------------------------------------
+
+	// <Yii Interfaces > -----------------
+
+	// yii\db\ActiveRecord ---------------
+
+	// < parent class > ------------------
+
+	// <CMG Interfaces > -----------------
+
+	// <Model> ---------------------------
+
+	// Create -------------
+
+	// Read ---------------
+
+	// Update -------------
+
+	// Delete -------------
 }
+
+Voucher::$typesMap[ Voucher::TYPE_SUBSCRIPTION_SETUP ] 			= 'Setup $';
+Voucher::$typesMap[ Voucher::TYPE_SUBSCRIPTION_SETUP_PERCENT ] 	= 'Setup %';
+Voucher::$typesMap[ Voucher::TYPE_SUBSCRIPTION_RECURRING ] 		= 'Recurring';
 
 ?>

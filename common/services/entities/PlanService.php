@@ -1,5 +1,5 @@
 <?php
-namespace cmsgears\subscription\common\services;
+namespace cmsgears\subscription\common\services\entities;
 
 // Yii Imports
 use \Yii;
@@ -13,14 +13,9 @@ use cmsgears\subscription\common\models\forms\PlanFeature;
 
 use cmsgears\core\common\utilities\SortUtil;
 
-class PlanService extends \cmsgears\core\common\services\ObjectDataService {
+class PlanService extends \cmsgears\core\common\services\entities\ObjectDataService {
 
 	// Read -------------------
-
-	public static function findBySlug( $slug ) {
-
-		return self::findBySlugType( $slug, SubscriptionGlobal::TYPE_PLAN );
-	}
 
 	public static function getFeatures( $plan, $associative = false ) {
 
@@ -42,12 +37,12 @@ class PlanService extends \cmsgears\core\common\services\ObjectDataService {
 
 		if( $associative ) {
 
-			return $planFeatures;	
+			return $planFeatures;
 		}
-		
+
 		return $featureObjects;
 	}
-	
+
 	public static function getFeaturesForUpdate( $plan, $features ) {
 
 		$planFeatures	= self::getFeatures( $plan, true );
@@ -57,7 +52,7 @@ class PlanService extends \cmsgears\core\common\services\ObjectDataService {
 		foreach ( $features as $feature ) {
 
 			if( in_array( $feature[ 'id' ], $keys ) ) {
-				
+
 				$planFeature			= $planFeatures[ $feature[ 'id' ] ];
 				$planFeature->name		= $feature[ 'name' ];
 				$featureObjects[]		= $planFeature;

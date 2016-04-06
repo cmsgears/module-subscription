@@ -1,5 +1,5 @@
 <?php
-namespace cmsgears\subscription\common\services;
+namespace cmsgears\subscription\common\services\entities;
 
 // Yii Imports
 use \Yii;
@@ -11,30 +11,21 @@ use cmsgears\subscription\common\config\SubscriptionGlobal;
 
 use cmsgears\core\common\models\entities\CoreTables;
 
-class FeatureService extends \cmsgears\core\common\services\ObjectDataService {
+class FeatureService extends \cmsgears\core\common\services\entities\ObjectDataService {
 
 	//Read -------------------
-
-	/**
-	 * @param string $slug
-	 * @return ObjectData
-	 */
-	public static function findBySlug( $slug ) {
-
-		return self::findBySlugType( $slug, SubscriptionGlobal::TYPE_FEATURE );
-	}
 
 	/**
 	 * @param array $config
 	 * @return array - an array having id as key and name as value.
 	 */
 	public static function findIdNameList( $conditions = [] ) {
-        
+
         $conditions[ 'type' ] = SubscriptionGlobal::TYPE_FEATURE;
-        
+
 		return self::getIdNameList( [ 'conditions' => $conditions ] );
 	}
-    
+
     /**
      * @param array $config
      * @return array - an array having id as key and name as value.

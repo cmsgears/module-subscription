@@ -12,7 +12,7 @@ use cmsgears\subscription\common\config\SubscriptionGlobal;
 
 use cmsgears\core\common\models\entities\ObjectData;
 
-use cmsgears\subscription\admin\services\FeatureService; 
+use cmsgears\subscription\admin\services\entities\FeatureService;
 
 class FeatureController extends \cmsgears\core\admin\controllers\base\Controller {
 
@@ -38,7 +38,7 @@ class FeatureController extends \cmsgears\core\admin\controllers\base\Controller
 	                'all' => [ 'permission' => SubscriptionGlobal::PERM_SUBSCRIPTION ],
 	                'create' => [ 'permission' => SubscriptionGlobal::PERM_SUBSCRIPTION ],
 	                'update' => [ 'permission' => SubscriptionGlobal::PERM_SUBSCRIPTION ],
-	                'delete' => [ 'permission' => SubscriptionGlobal::PERM_SUBSCRIPTION ] 
+	                'delete' => [ 'permission' => SubscriptionGlobal::PERM_SUBSCRIPTION ]
                 ]
             ],
             'verbs' => [
@@ -52,7 +52,7 @@ class FeatureController extends \cmsgears\core\admin\controllers\base\Controller
             ]
         ];
     }
-	
+
 	// FeatureController -----------------
 
 	public function actionAll() {
@@ -63,12 +63,12 @@ class FeatureController extends \cmsgears\core\admin\controllers\base\Controller
 	         'dataProvider' => $dataProvider
 	    ]);
 	}
-	
+
 	public function actionCreate() {
 
 		$model			= new ObjectData();
 		$model->siteId	= Yii::$app->cmgCore->siteId;
-		$model->type	= SubscriptionGlobal::TYPE_FEATURE; 
+		$model->type	= SubscriptionGlobal::TYPE_FEATURE;
 
 		$model->setScenario( 'create' );
 
@@ -131,7 +131,7 @@ class FeatureController extends \cmsgears\core\admin\controllers\base\Controller
 		}
 
 		// Model not found
-		throw new NotFoundHttpException( Yii::$app->cmgCoreMessage->getMessage( CoreGlobal::ERROR_NOT_FOUND ) );	
+		throw new NotFoundHttpException( Yii::$app->cmgCoreMessage->getMessage( CoreGlobal::ERROR_NOT_FOUND ) );
 	}
 }
 

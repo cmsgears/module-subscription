@@ -1,5 +1,5 @@
 <?php
-namespace cmsgears\subscription\admin\services;
+namespace cmsgears\subscription\admin\services\entities;
 
 // Yii Imports
 use \Yii;
@@ -10,7 +10,7 @@ use cmsgears\subscription\common\config\SubscriptionGlobal;
 
 use cmsgears\core\common\models\entities\ObjectData;
 
-class PlanService extends  \cmsgears\subscription\common\services\PlanService {
+class PlanService extends  \cmsgears\subscription\common\services\entities\PlanService {
 
 	public static function getPagination( $config = [] ) {
 

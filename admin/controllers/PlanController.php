@@ -13,8 +13,8 @@ use cmsgears\subscription\common\config\SubscriptionGlobal;
 use cmsgears\core\common\models\entities\ObjectData;
 use cmsgears\subscription\common\models\forms\PlanFeature;
 
-use cmsgears\subscription\admin\services\PlanService;
-use cmsgears\subscription\admin\services\FeatureService;
+use cmsgears\subscription\admin\services\entities\PlanService;
+use cmsgears\subscription\admin\services\entities\FeatureService;
 
 class PlanController extends \cmsgears\core\admin\controllers\base\Controller {
 
@@ -40,7 +40,7 @@ class PlanController extends \cmsgears\core\admin\controllers\base\Controller {
 	                'all' => [ 'permission' => SubscriptionGlobal::PERM_SUBSCRIPTION ],
 	                'create' => [ 'permission' => SubscriptionGlobal::PERM_SUBSCRIPTION ],
 	                'update' => [ 'permission' => SubscriptionGlobal::PERM_SUBSCRIPTION ],
-	                'delete' => [ 'permission' => SubscriptionGlobal::PERM_SUBSCRIPTION ] 
+	                'delete' => [ 'permission' => SubscriptionGlobal::PERM_SUBSCRIPTION ]
                 ]
             ],
             'verbs' => [
@@ -70,7 +70,7 @@ class PlanController extends \cmsgears\core\admin\controllers\base\Controller {
 
 		$model			= new ObjectData();
 		$model->siteId	= Yii::$app->cmgCore->siteId;
-		$model->type	= SubscriptionGlobal::TYPE_PLAN; 
+		$model->type	= SubscriptionGlobal::TYPE_PLAN;
 		$model->data	= "{ \"features\": {} }";
 		$featuresList	= FeatureService::findActiveFeatures();
 
@@ -84,7 +84,7 @@ class PlanController extends \cmsgears\core\admin\controllers\base\Controller {
 			$planFeatures[] = new PlanFeature();
 		}
 
-		if( $model->load( Yii::$app->request->post(), 'ObjectData' ) && PlanFeature::loadMultiple( $planFeatures, Yii::$app->request->post(), 'PlanFeature' ) && 
+		if( $model->load( Yii::$app->request->post(), 'ObjectData' ) && PlanFeature::loadMultiple( $planFeatures, Yii::$app->request->post(), 'PlanFeature' ) &&
 			$model->validate() && PlanFeature::validateMultiple( $planFeatures ) ) {
 
 			$plan	= PlanService::create( $model );
@@ -114,7 +114,7 @@ class PlanController extends \cmsgears\core\admin\controllers\base\Controller {
 			$featuresList	= FeatureService::findActiveFeatures();
 			$planFeatures	= PlanService::getFeaturesForUpdate( $model, $featuresList );
 
-			if( $model->load( Yii::$app->request->post(), 'ObjectData' ) && PlanFeature::loadMultiple( $planFeatures, Yii::$app->request->post(), 'PlanFeature' ) && 
+			if( $model->load( Yii::$app->request->post(), 'ObjectData' ) && PlanFeature::loadMultiple( $planFeatures, Yii::$app->request->post(), 'PlanFeature' ) &&
 				$model->validate() && PlanFeature::validateMultiple( $planFeatures ) ) {
 
 				PlanService::update( $model );
@@ -161,7 +161,7 @@ class PlanController extends \cmsgears\core\admin\controllers\base\Controller {
 		}
 
 		// Model not found
-		throw new NotFoundHttpException( Yii::$app->cmgCoreMessage->getMessage( CoreGlobal::ERROR_NOT_FOUND ) );	
+		throw new NotFoundHttpException( Yii::$app->cmgCoreMessage->getMessage( CoreGlobal::ERROR_NOT_FOUND ) );
 	}
 }
 

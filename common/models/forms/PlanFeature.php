@@ -6,8 +6,8 @@ use \Yii;
 use yii\helpers\ArrayHelper;
 
 // CMG Imports
-use cmsgears\subscription\common\config\SubscriptionGlobal;
 use cmsgears\core\common\config\CoreGlobal;
+use cmsgears\subscription\common\config\SubscriptionGlobal;
 
 class PlanFeature extends \cmsgears\core\common\models\forms\JsonModel {
 

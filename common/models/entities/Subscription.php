@@ -25,6 +25,10 @@ use cmsgears\core\common\models\entities\User;
  */
 class Subscription extends \cmsgears\core\common\models\entities\CmgEntity {
 
+	// Variables ---------------------------------------------------
+
+	// Constants/Statics --
+
 	const STATUS_NEW		=  0;
 	const STATUS_ACTIVE		= 50;
 
@@ -33,31 +37,15 @@ class Subscription extends \cmsgears\core\common\models\entities\CmgEntity {
 		self::STATUS_ACTIVE => 'Active'
 	];
 
+	// Public -------------
+
+	// Private/Protected --
+
+	// Traits ------------------------------------------------------
+
+	// Constructor and Initialisation ------------------------------
+
 	// Instance Methods --------------------------------------------
-
-	/**
-	 * @return ObjectData array
-	 */
-	public function getPlan() {
-
-    	return $this->hasOne( ObjectData::className(), [ 'id' => 'planId' ] );
-	}
-
-	/**
-	 * @return ObjectData array
-	 */
-	public function getUser() {
-
-    	return $this->hasOne( User::className(), [ 'id' => 'subscriberId' ] );
-	}
-
-	/**
-	 * @return string representation of flag
-	 */
-	public function getStatusStr() {
-
-		return self::$statusMap[ $this->status ]; 
-	}
 
 	// yii\base\Component ----------------
 
@@ -106,6 +94,32 @@ class Subscription extends \cmsgears\core\common\models\entities\CmgEntity {
 		];
 	}
 
+	// Subscription ----------------------
+
+	/**
+	 * @return ObjectData array
+	 */
+	public function getPlan() {
+
+    	return $this->hasOne( ObjectData::className(), [ 'id' => 'planId' ] );
+	}
+
+	/**
+	 * @return ObjectData array
+	 */
+	public function getUser() {
+
+    	return $this->hasOne( User::className(), [ 'id' => 'subscriberId' ] );
+	}
+
+	/**
+	 * @return string representation of flag
+	 */
+	public function getStatusStr() {
+
+		return self::$statusMap[ $this->status ];
+	}
+
 	// Static Methods ----------------------------------------------
 
 	// yii\db\ActiveRecord ---------------
@@ -118,15 +132,15 @@ class Subscription extends \cmsgears\core\common\models\entities\CmgEntity {
 		return SubscriptionTables::TABLE_SUBSCRIPTION;
 	}
 
-	// Permission ------------------------
+	// Subscription ----------------------
 
-	/**
-	 * @return Permission - by slug
-	 */
-	public static function findBySlug( $slug ) {
+	// Create -------------
 
-		return self::find()->where( 'slug=:slug', [ ':slug' => $slug ] )->one();
-	}
+	// Read ---------------
+
+	// Update -------------
+
+	// Delete -------------
 }
 
 ?>

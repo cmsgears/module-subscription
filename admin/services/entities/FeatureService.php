@@ -1,5 +1,5 @@
 <?php
-namespace cmsgears\subscription\admin\services;
+namespace cmsgears\subscription\admin\services\entities;
 
 // Yii Imports
 use \Yii;
@@ -10,10 +10,10 @@ use cmsgears\subscription\common\config\SubscriptionGlobal;
 
 use cmsgears\core\common\models\entities\ObjectData;
 
-class FeatureService extends \cmsgears\subscription\common\services\FeatureService {
-	
+class FeatureService extends \cmsgears\subscription\common\services\entities\FeatureService {
+
 	//Read -------------------
-	
+
 	public static function getPagination( $config = [] ) {
 
 	    $sort = new Sort([
