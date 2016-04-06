@@ -13,6 +13,8 @@ use cmsgears\subscription\common\config\SubscriptionGlobal;
 use cmsgears\core\common\models\entities\ObjectData;
 use cmsgears\core\common\models\entities\User;
 
+use cmsgears\subscription\common\models\base\SubscriptionTables;
+
 /**
  * Subscription Entity
  *
@@ -23,7 +25,7 @@ use cmsgears\core\common\models\entities\User;
  * @property datetime $createdAt
  * @property datetime $modifiedAt
  */
-class Subscription extends \cmsgears\core\common\models\entities\CmgEntity {
+class Subscription extends \cmsgears\core\common\models\base\CmgEntity {
 
 	// Variables ---------------------------------------------------
 

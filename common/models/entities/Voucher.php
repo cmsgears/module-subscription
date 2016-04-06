@@ -10,6 +10,8 @@ use yii\helpers\ArrayHelper;
 use cmsgears\core\common\config\CoreGlobal;
 use cmsgears\cart\common\config\CartGlobal;
 
+use cmsgears\subscription\common\models\base\SubscriptionTables;
+
 class Voucher extends \cmsgears\cart\common\models\entities\Voucher {
 
 	// Variables ---------------------------------------------------

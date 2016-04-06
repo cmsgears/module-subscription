@@ -1,5 +1,5 @@
 <?php
-namespace cmsgears\subscription\common\models\entities;
+namespace cmsgears\subscription\common\models\base;
 
 class SubscriptionTables {
 
