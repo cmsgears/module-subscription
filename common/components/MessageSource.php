@@ -11,25 +11,33 @@ class MessageSource extends \yii\base\Component {
 
 	// Variables ---------------------------------------------------
 
-	private $messageDb = [
-		// Generic Fields 
+	// Global -----------------
+
+	// Public -----------------
+
+	// Protected --------------
+
+	protected $messageDb = [
+		// Generic Fields
 		SubscriptionGlobal::FIELD_FEATURE => 'Feature',
 		SubscriptionGlobal::FIELD_PLAN => 'Plan',
 		SubscriptionGlobal::FIELD_SUBSCRIBER => 'Subscriber'
 	];
 
-	/**
-	 * Initialise the Cms Message DB Component.
-	 */
-    public function init() {
+	// Private ----------------
 
-        parent::init();
-    }
+	// Constructor and Initialisation ------------------------------
+
+	// Instance methods --------------------------------------------
+
+	// Yii parent classes --------------------
+
+	// CMG parent classes --------------------
+
+	// MessageSource -------------------------
 
 	public function getMessage( $messageKey, $params = [], $language = null ) {
 
 		return $this->messageDb[ $messageKey ];
 	}
 }
-
-?>
