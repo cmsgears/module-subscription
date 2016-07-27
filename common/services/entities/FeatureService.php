@@ -1,37 +1,121 @@
 <?php
 namespace cmsgears\subscription\common\services\entities;
 
-// Yii Imports
 use \Yii;
+use yii\data\Sort;
 
 // CMG Imports
 use cmsgears\core\common\config\CoreGlobal;
-
 use cmsgears\subscription\common\config\SubscriptionGlobal;
 
-use cmsgears\core\common\models\entities\CoreTables;
+use cmsgears\core\common\models\entities\ObjectData;
 
-class FeatureService extends \cmsgears\core\common\services\entities\ObjectDataService {
+use cmsgears\subscription\common\services\interfaces\entities\IFeatureService;
 
-	//Read -------------------
+class FeatureService extends \cmsgears\core\common\services\entities\ObjectDataService implements IFeatureService {
 
-	/**
-	 * @param array $config
-	 * @return array - an array having id as key and name as value.
-	 */
-	public static function findIdNameList( $conditions = [] ) {
+	// Variables ---------------------------------------------------
 
-        $conditions[ 'type' ] = SubscriptionGlobal::TYPE_FEATURE;
+	// Globals -------------------------------
 
-		return self::getIdNameList( [ 'conditions' => $conditions ] );
+	// Constants --------------
+
+	// Public -----------------
+
+	public static $parentType	= SubscriptionGlobal::TYPE_FEATURE;
+
+	// Protected --------------
+
+	// Variables -----------------------------
+
+	// Public -----------------
+
+	// Protected --------------
+
+	// Private ----------------
+
+	// Traits ------------------------------------------------------
+
+	// Constructor and Initialisation ------------------------------
+
+	// Instance methods --------------------------------------------
+
+	// Yii parent classes --------------------
+
+	// yii\base\Component -----
+
+	// CMG interfaces ------------------------
+
+	// CMG parent classes --------------------
+
+	// FeatureService ------------------------
+
+	// Data Provider ------
+
+	public function getPage( $config = [] ) {
+
+		$modelTable	= static::$modelTable;
+
+		$config[ 'conditions' ][ "$modelTable.type" ] =  SubscriptionGlobal::TYPE_FEATURE;
+
+		return parent::getPage( $config );
 	}
 
-    /**
-     * @param array $config
-     * @return array - an array having id as key and name as value.
-     */
-    public static function findActiveFeatures() {
+	// Read ---------------
 
-        return self::findIdNameList( [ 'active' => CoreGlobal::STATUS_ACTIVE ] );
-    }
+    // Read - Models ---
+
+    // Read - Lists ----
+
+	public function getIdList( $config = [] ) {
+
+		$modelTable	= static::$modelTable;
+
+		$config[ 'conditions' ][ "$modelTable.type" ] =  SubscriptionGlobal::TYPE_FEATURE;
+
+		return parent::getIdList( $config );
+	}
+
+	public function getIdNameList( $config = [] ) {
+
+		$modelTable	= static::$modelTable;
+
+		$config[ 'conditions' ][ "$modelTable.type" ] =  SubscriptionGlobal::TYPE_FEATURE;
+
+		return parent::getIdNameList( $config );
+	}
+
+    // Read - Maps -----
+
+	// Read - Others ---
+
+	// Create -------------
+
+	// Update -------------
+
+	// Delete -------------
+
+	// Static Methods ----------------------------------------------
+
+	// CMG parent classes --------------------
+
+	// FeatureService ------------------------
+
+	// Data Provider ------
+
+	// Read ---------------
+
+    // Read - Models ---
+
+    // Read - Lists ----
+
+    // Read - Maps -----
+
+	// Read - Others ---
+
+	// Create -------------
+
+	// Update -------------
+
+	// Delete -------------
 }

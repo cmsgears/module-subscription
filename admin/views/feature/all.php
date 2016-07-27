@@ -30,7 +30,7 @@ if( !isset( $sortOrder ) ) {
 		<span class="frm-icon-element element-small">
 			<i class="cmti cmti-plus"></i>
 			<?= Html::a( 'Add', [ 'create' ], [ 'class' => 'btn' ] ) ?>
-		</span>				
+		</span>
 	</div>
 	<div class="header-search col15x5">
 		<input id="search-terms" class="element-large" type="text" name="search" value="<?= $searchTerms ?>">
@@ -71,7 +71,7 @@ if( !isset( $sortOrder ) ) {
 
 					foreach( $models as $feature ) {
 
-						$slug = $feature->slug;
+						$id = $feature->id;
 				?>
 					<tr>
 						<td><?= $feature->name ?></td>
@@ -79,8 +79,8 @@ if( !isset( $sortOrder ) ) {
 						<td><?= $feature->getActiveStr() ?></td>
 						<td><?= $feature->description ?></td>
 						<td class="actions">
-							<span title="Update Menu"><?= Html::a( "", [ "update?slug=$slug" ], [ 'class' => 'cmti cmti-edit' ] )  ?></span>
-							<span title="Delete Menu"><?= Html::a( "", [ "delete?slug=$slug" ], [ 'class' => 'cmti cmti-close-c-o' ] )  ?></span>
+							<span title="Update Menu"><?= Html::a( "", [ "update?id=$id" ], [ 'class' => 'cmti cmti-edit' ] )  ?></span>
+							<span title="Delete Menu"><?= Html::a( "", [ "delete?id=$id" ], [ 'class' => 'cmti cmti-close-c-o' ] )  ?></span>
 						</td>
 					</tr>
 				<?php } ?>

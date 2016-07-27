@@ -9,63 +9,73 @@ use yii\helpers\ArrayHelper;
 use cmsgears\core\common\config\CoreGlobal;
 use cmsgears\cart\common\config\CartGlobal;
 
-use cmsgears\subscription\common\models\base\SubscriptionTables;
-
 class Voucher extends \cmsgears\cart\common\models\entities\Voucher {
 
 	// Variables ---------------------------------------------------
 
-	// Constants/Statics --
+	// Globals -------------------------------
 
-	const TYPE_SUBSCRIPTION_SETUP			=  200;
-	const TYPE_SUBSCRIPTION_SETUP_PERCENT	=  210;
-	const TYPE_SUBSCRIPTION_RECURRING		=  220;
+	// Constants --------------
 
-	// Public -------------
+	const TYPE_SUBSCRIPTION_SETUP			=  'sub-setup$';
+	const TYPE_SUBSCRIPTION_SETUP_PERCENT	=  'sub-setup%';
+	const TYPE_SUBSCRIPTION_RECURRING		=  'recurring';
 
-	// Private/Protected --
+	// Public -----------------
+
+	// Protected --------------
+
+	// Variables -----------------------------
+
+	// Public -----------------
+
+	// Protected --------------
+
+	// Private ----------------
 
 	// Traits ------------------------------------------------------
 
 	// Constructor and Initialisation ------------------------------
 
-	// Instance Methods --------------------------------------------
+	// Instance methods --------------------------------------------
 
-	// <Yii Interfaces > -----------------
+	// Yii interfaces ------------------------
 
-	// yii\base\Component ----------------
+	// Yii parent classes --------------------
 
-	// yii\base\Model --------------------
+	// yii\base\Component -----
 
-	// < parent class > ------------------
+	// yii\base\Model ---------
 
-	// <CMG Interfaces > -----------------
+	// CMG interfaces ------------------------
 
-	// <Model> ---------------------------
+	// CMG parent classes --------------------
+
+	// Validators ----------------------------
+
+	// Voucher -------------------------------
 
 	// Static Methods ----------------------------------------------
 
-	// <Yii Interfaces > -----------------
+	// Yii parent classes --------------------
 
-	// yii\db\ActiveRecord ---------------
+	// yii\db\ActiveRecord ----
 
-	// < parent class > ------------------
+	// CMG parent classes --------------------
 
-	// <CMG Interfaces > -----------------
+	// Voucher -------------------------------
 
-	// <Model> ---------------------------
+	// Read - Query -----------
 
-	// Create -------------
+	// Read - Find ------------
 
-	// Read ---------------
+	// Create -----------------
 
-	// Update -------------
+	// Update -----------------
 
-	// Delete -------------
+	// Delete -----------------
 }
 
-Voucher::$typesMap[ Voucher::TYPE_SUBSCRIPTION_SETUP ] 			= 'Setup $';
-Voucher::$typesMap[ Voucher::TYPE_SUBSCRIPTION_SETUP_PERCENT ] 	= 'Setup %';
+Voucher::$typesMap[ Voucher::TYPE_SUBSCRIPTION_SETUP ] 			= 'Setup Fee $';
+Voucher::$typesMap[ Voucher::TYPE_SUBSCRIPTION_SETUP_PERCENT ] 	= 'Setup Fee %';
 Voucher::$typesMap[ Voucher::TYPE_SUBSCRIPTION_RECURRING ] 		= 'Recurring';
-
-?>

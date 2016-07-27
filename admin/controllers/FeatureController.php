@@ -4,6 +4,7 @@ namespace cmsgears\subscription\admin\controllers;
 // Yii Imports
 use \Yii;
 use yii\filters\VerbFilter;
+use yii\helpers\Url;
 use yii\web\NotFoundHttpException;
 
 // CMG Imports
@@ -12,127 +13,73 @@ use cmsgears\subscription\common\config\SubscriptionGlobal;
 
 use cmsgears\core\common\models\entities\ObjectData;
 
-use cmsgears\subscription\admin\services\entities\FeatureService;
+class FeatureController extends \cmsgears\core\admin\controllers\base\CrudController {
 
-class FeatureController extends \cmsgears\core\admin\controllers\base\Controller {
+	// Variables ---------------------------------------------------
+
+	// Globals ----------------
+
+	// Public -----------------
+
+	// Protected --------------
+
+	// Private ----------------
 
 	// Constructor and Initialisation ------------------------------
 
- 	public function __construct( $id, $module, $config = [] ) {
+ 	public function init() {
 
-        parent::__construct( $id, $module, $config );
+        parent::init();
 
-		$this->sidebar 	= [ 'parent' => 'sidebar-subscription', 'child' => 'features' ];
+		$this->crudPermission 	= SubscriptionGlobal::PERM_SUBSCRIPTION;
+
+		$this->modelService		= Yii::$app->factory->get( 'subFeatureService' );
+
+		$this->sidebar 			= [ 'parent' => 'sidebar-subscription', 'child' => 'feature' ];
+
+		$this->returnUrl		= Url::previous( 'features' );
+		$this->returnUrl		= isset( $this->returnUrl ) ? $this->returnUrl : Url::toRoute( [ '/subscription/feature/all' ], true );
 	}
 
-	// Instance Methods --------------------------------------------
+	// Instance methods --------------------------------------------
 
-	// yii\base\Component ----------------
+	// Yii interfaces ------------------------
 
-    public function behaviors() {
+	// Yii parent classes --------------------
 
-        return [
-            'rbac' => [
-                'class' => Yii::$app->cmgCore->getRbacFilterClass(),
-                'actions' => [
-	                'all' => [ 'permission' => SubscriptionGlobal::PERM_SUBSCRIPTION ],
-	                'create' => [ 'permission' => SubscriptionGlobal::PERM_SUBSCRIPTION ],
-	                'update' => [ 'permission' => SubscriptionGlobal::PERM_SUBSCRIPTION ],
-	                'delete' => [ 'permission' => SubscriptionGlobal::PERM_SUBSCRIPTION ]
-                ]
-            ],
-            'verbs' => [
-                'class' => VerbFilter::className(),
-                'actions' => [
-	                'all' => [ 'get' ],
-	                'create' => [ 'get', 'post' ],
-	                'update' => [ 'get', 'post' ],
-	                'delete' => [ 'get', 'post' ]
-                ]
-            ]
-        ];
-    }
+	// yii\base\Component -----
 
-	// FeatureController -----------------
+	// yii\base\Controller ----
+
+	// CMG interfaces ------------------------
+
+	// CMG parent classes --------------------
+
+	// PlanController ------------------------
 
 	public function actionAll() {
 
-		$dataProvider = FeatureService::getPagination();
+		Url::remember( [ 'feature/all' ], 'features' );
 
-	    return $this->render('all', [
-	         'dataProvider' => $dataProvider
-	    ]);
+	    return parent::actionAll();
 	}
 
 	public function actionCreate() {
 
-		$model			= new ObjectData();
-		$model->siteId	= Yii::$app->cmgCore->siteId;
+		$modelClass		= $this->modelService->getModelClass();
+		$model			= new $modelClass;
+		$model->siteId	= Yii::$app->core->siteId;
 		$model->type	= SubscriptionGlobal::TYPE_FEATURE;
 
-		$model->setScenario( 'create' );
+		if( $model->load( Yii::$app->request->post(), $model->getClassName() ) && $model->validate() ) {
 
-		if( $model->load( Yii::$app->request->post(), 'ObjectData' ) && $model->validate() ) {
+			$this->modelService->create( $model );
 
-			if( FeatureService::create( $model ) ) {
-
-				return $this->redirect( [ 'all' ] );
-			}
+			return $this->redirect( $this->returnUrl );
 		}
 
     	return $this->render( 'create', [
     		'model' => $model
     	]);
 	}
-
-	public function actionUpdate( $slug ) {
-
-		$model	= FeatureService::findBySlug( $slug );
-
-		if( isset( $model ) ) {
-
-			$model->setScenario( 'update' );
-
-			if( $model->load( Yii::$app->request->post(), 'ObjectData' ) && $model->validate() ) {
-
-				FeatureService::update( $model );
-
-				return $this->redirect( [ 'all' ] );
-			}
-
-	    	return $this->render( 'update', [
-	    		'model' => $model
-	    	]);
-		}
-
-		// Model not found
-		throw new NotFoundHttpException( Yii::$app->cmgCoreMessage->getMessage( CoreGlobal::ERROR_NOT_FOUND ) );
-	}
-
-	public function actionDelete( $slug ) {
-
-		// Find Model
-		$model	= FeatureService::findBySlug( $slug );
-
-		// Delete/Render if exist
-		if( isset( $model ) ) {
-
-			if( $model->load( Yii::$app->request->post(), 'ObjectData' ) ) {
-
-				if( FeatureService::delete( $model ) ) {
-
-					return $this->redirect( [ 'all' ] );
-				}
-			}
-
-	    	return $this->render( 'delete', [
-	    		'model' => $model
-	    	]);
-		}
-
-		// Model not found
-		throw new NotFoundHttpException( Yii::$app->cmgCoreMessage->getMessage( CoreGlobal::ERROR_NOT_FOUND ) );
-	}
 }
-
-?>

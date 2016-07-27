@@ -1,23 +1,72 @@
 <?php
 namespace cmsgears\subscription\common\services\entities;
 
-// Yii Imports
 use \Yii;
 use yii\data\Sort;
 
 // CMG Imports
+use cmsgears\core\common\config\CoreGlobal;
 use cmsgears\subscription\common\config\SubscriptionGlobal;
 
 use cmsgears\core\common\models\entities\ObjectData;
 use cmsgears\subscription\common\models\forms\PlanFeature;
 
-use cmsgears\core\common\utilities\SortUtil;
+use cmsgears\subscription\common\services\interfaces\entities\IPlanService;
 
-class PlanService extends \cmsgears\core\common\services\entities\ObjectDataService {
+use cmsgears\core\common\utilities\DataUtil;
 
-	// Read -------------------
+class PlanService extends \cmsgears\core\common\services\entities\ObjectDataService implements IPlanService {
 
-	public static function getFeatures( $plan, $associative = false ) {
+	// Variables ---------------------------------------------------
+
+	// Globals -------------------------------
+
+	// Constants --------------
+
+	// Public -----------------
+
+	public static $parentType	= SubscriptionGlobal::TYPE_PLAN;
+
+	// Protected --------------
+
+	// Variables -----------------------------
+
+	// Public -----------------
+
+	// Protected --------------
+
+	// Private ----------------
+
+	// Traits ------------------------------------------------------
+
+	// Constructor and Initialisation ------------------------------
+
+	// Instance methods --------------------------------------------
+
+	// Yii parent classes --------------------
+
+	// yii\base\Component -----
+
+	// CMG interfaces ------------------------
+
+	// CMG parent classes --------------------
+
+	// PlanService ---------------------------
+
+	// Data Provider ------
+
+	public function getPage( $config = [] ) {
+
+		$modelTable	= static::$modelTable;
+
+		$config[ 'conditions' ][ "$modelTable.type" ] =  SubscriptionGlobal::TYPE_PLAN;
+
+		return parent::getPage( $config );
+	}
+
+	// Read ---------------
+
+	public function getFeatures( $plan, $associative = false ) {
 
 		$objectData		= $plan->generateObjectFromJson();
 		$features		= $objectData->features;
@@ -43,7 +92,7 @@ class PlanService extends \cmsgears\core\common\services\entities\ObjectDataServ
 		return $featureObjects;
 	}
 
-	public static function getFeaturesForUpdate( $plan, $features ) {
+	public function getFeaturesForUpdate( $plan, $features ) {
 
 		$planFeatures	= self::getFeatures( $plan, true );
 		$keys			= array_keys( $planFeatures );
@@ -69,27 +118,19 @@ class PlanService extends \cmsgears\core\common\services\entities\ObjectDataServ
 		return $featureObjects;
 	}
 
-	// Data Provider ----
+    // Read - Models ---
 
-	/**
-	 * @param array $config to generate query
-	 * @return ActiveDataProvider
-	 */
-	public static function getPagination( $config = [] ) {
+    // Read - Lists ----
 
-		if( !isset( $config[ 'conditions' ] ) ) {
+    // Read - Maps -----
 
-			$config[ 'conditions' ]	= [];
-		}
+	// Read - Others ---
 
-		$config[ 'conditions' ][ 'type' ] =  SubscriptionGlobal::TYPE_PLAN;
+	// Create -------------
 
-		return self::getDataProvider( new ObjectData(), $config );
-	}
+	// Update -------------
 
-	// Update -----------------
-
-	public static function updateFeatures( $plan, $features ) {
+	public function updateFeatures( $plan, $features ) {
 
 		$plan		= self::findById( $plan->id );
 		$objectData	= $plan->generateObjectFromJson();
@@ -114,7 +155,7 @@ class PlanService extends \cmsgears\core\common\services\entities\ObjectDataServ
 			}
 		}
 
-		$objectData->features	= SortUtil::sortObjectArrayByNumber( $objectData->features, 'order', true );
+		$objectData->features	= DataUtil::sortObjectArrayByNumber( $objectData->features, 'order', true );
 
 		$plan->generateJsonFromObject( $objectData );
 
@@ -122,6 +163,30 @@ class PlanService extends \cmsgears\core\common\services\entities\ObjectDataServ
 
 		return true;
 	}
-}
 
-?>
+	// Delete -------------
+
+	// Static Methods ----------------------------------------------
+
+	// CMG parent classes --------------------
+
+	// PlanService ---------------------------
+
+	// Data Provider ------
+
+	// Read ---------------
+
+    // Read - Models ---
+
+    // Read - Lists ----
+
+    // Read - Maps -----
+
+	// Read - Others ---
+
+	// Create -------------
+
+	// Update -------------
+
+	// Delete -------------
+}

@@ -4,6 +4,7 @@ namespace cmsgears\subscription\admin\controllers;
 // Yii Imports
 use \Yii;
 use yii\filters\VerbFilter;
+use yii\helpers\Url;
 use yii\web\NotFoundHttpException;
 
 // CMG Imports
@@ -13,156 +14,152 @@ use cmsgears\subscription\common\config\SubscriptionGlobal;
 use cmsgears\core\common\models\entities\ObjectData;
 use cmsgears\subscription\common\models\forms\PlanFeature;
 
-use cmsgears\subscription\admin\services\entities\PlanService;
-use cmsgears\subscription\admin\services\entities\FeatureService;
+class PlanController extends \cmsgears\core\admin\controllers\base\CrudController {
 
-class PlanController extends \cmsgears\core\admin\controllers\base\Controller {
+	// Variables ---------------------------------------------------
+
+	// Globals ----------------
+
+	// Public -----------------
+
+	// Protected --------------
+
+	protected $featureService;
+
+	// Private ----------------
 
 	// Constructor and Initialisation ------------------------------
 
- 	public function __construct( $id, $module, $config = [] ) {
+ 	public function init() {
 
-        parent::__construct( $id, $module, $config );
+        parent::init();
 
-		$this->sidebar 	= [ 'parent' => 'sidebar-subscription', 'child' => 'plans' ];
+		$this->crudPermission 	= SubscriptionGlobal::PERM_SUBSCRIPTION;
+
+		$this->modelService		= Yii::$app->factory->get( 'subPlanService' );
+		$this->featureService	= Yii::$app->factory->get( 'subFeatureService' );
+
+		$this->sidebar 			= [ 'parent' => 'sidebar-subscription', 'child' => 'plan' ];
+
+		$this->returnUrl		= Url::previous( 'plans' );
+		$this->returnUrl		= isset( $this->returnUrl ) ? $this->returnUrl : Url::toRoute( [ '/subscription/plan/all' ], true );
 	}
 
-	// Instance Methods --------------------------------------------
+	// Instance methods --------------------------------------------
 
-	// yii\base\Component ----------------
+	// Yii interfaces ------------------------
 
-    public function behaviors() {
+	// Yii parent classes --------------------
 
-        return [
-            'rbac' => [
-                'class' => Yii::$app->cmgCore->getRbacFilterClass(),
-                'actions' => [
-	                'all' => [ 'permission' => SubscriptionGlobal::PERM_SUBSCRIPTION ],
-	                'create' => [ 'permission' => SubscriptionGlobal::PERM_SUBSCRIPTION ],
-	                'update' => [ 'permission' => SubscriptionGlobal::PERM_SUBSCRIPTION ],
-	                'delete' => [ 'permission' => SubscriptionGlobal::PERM_SUBSCRIPTION ]
-                ]
-            ],
-            'verbs' => [
-                'class' => VerbFilter::className(),
-                'actions' => [
-	                'all' => [ 'get' ],
-	                'create' => [ 'get', 'post' ],
-	                'update' => [ 'get', 'post' ],
-	                'delete' => [ 'get', 'post' ]
-                ]
-            ]
-        ];
-    }
+	// yii\base\Component -----
 
-	// PlanController -----------------
+	// yii\base\Controller ----
+
+	// CMG interfaces ------------------------
+
+	// CMG parent classes --------------------
+
+	// PlanController ------------------------
 
 	public function actionAll() {
 
-		$dataProvider = PlanService::getPagination();
+		Url::remember( [ 'plan/all' ], 'plans' );
 
-	    return $this->render('all', [
-	         'dataProvider' => $dataProvider
-	    ]);
+	    return parent::actionAll();
 	}
 
 	public function actionCreate() {
 
-		$model			= new ObjectData();
-		$model->siteId	= Yii::$app->cmgCore->siteId;
+		$modelClass		= $this->modelService->getModelClass();
+		$model			= new $modelClass;
+		$model->siteId	= Yii::$app->core->siteId;
 		$model->type	= SubscriptionGlobal::TYPE_PLAN;
 		$model->data	= "{ \"features\": {} }";
-		$featuresList	= FeatureService::findActiveFeatures();
-
-		$model->setScenario( 'create' );
+		$features		= $this->featureService->getIdNameList();
 
 		// Plan Features
 		$planFeatures	= [];
 
-		for ( $i = 0, $j = count( $featuresList ); $i < $j; $i++ ) {
+		for ( $i = 0, $j = count( $features ); $i < $j; $i++ ) {
 
 			$planFeatures[] = new PlanFeature();
 		}
 
-		if( $model->load( Yii::$app->request->post(), 'ObjectData' ) && PlanFeature::loadMultiple( $planFeatures, Yii::$app->request->post(), 'PlanFeature' ) &&
+		if( $model->load( Yii::$app->request->post(), $model->getClassName() ) && PlanFeature::loadMultiple( $planFeatures, Yii::$app->request->post(), 'PlanFeature' ) &&
 			$model->validate() && PlanFeature::validateMultiple( $planFeatures ) ) {
 
-			$plan	= PlanService::create( $model );
+			$plan = $this->modelService->create( $model );
 
-			PlanService::updateFeatures( $plan, $planFeatures );
+			$this->modelService->updateFeatures( $plan, $planFeatures );
 
-			return $this->redirect( [ 'all' ] );
+			return $this->redirect( $this->returnUrl );
 		}
 
     	return $this->render( 'create', [
     		'model' => $model,
-    		'featuresList' => $featuresList,
+    		'featuresList' => $features,
     		'planFeatures' => $planFeatures
     	]);
 	}
 
-	public function actionUpdate( $slug ) {
+	public function actionUpdate( $id ) {
 
 		// Find Model
-		$model	= PlanService::findBySlug( $slug );
+		$model		= $this->modelService->getById( $id );
 
 		// Update/Render if exist
 		if( isset( $model ) ) {
 
-			$model->setScenario( 'update' );
+			$features		= $this->featureService->getIdNameList();
+			$planFeatures	= $this->modelService->getFeaturesForUpdate( $model, $features );
 
-			$featuresList	= FeatureService::findActiveFeatures();
-			$planFeatures	= PlanService::getFeaturesForUpdate( $model, $featuresList );
-
-			if( $model->load( Yii::$app->request->post(), 'ObjectData' ) && PlanFeature::loadMultiple( $planFeatures, Yii::$app->request->post(), 'PlanFeature' ) &&
+			if( $model->load( Yii::$app->request->post(), $model->getClassName() ) && PlanFeature::loadMultiple( $planFeatures, Yii::$app->request->post(), 'PlanFeature' ) &&
 				$model->validate() && PlanFeature::validateMultiple( $planFeatures ) ) {
 
-				PlanService::update( $model );
+				$plan = $this->modelService->update( $model );
 
-				PlanService::updateFeatures( $model, $planFeatures );
+				$this->modelService->updateFeatures( $plan, $planFeatures );
 
-				return $this->redirect( [ 'all' ] );
+				return $this->redirect( $this->returnUrl );
 			}
 
 	    	return $this->render( 'update', [
 	    		'model' => $model,
-	    		'planFeatures' => $planFeatures,
-	    		'featuresList' => $featuresList
+	    		'featuresList' => $features,
+	    		'planFeatures' => $planFeatures
 	    	]);
 		}
 
 		// Model not found
-		throw new NotFoundHttpException( Yii::$app->cmgCoreMessage->getMessage( CoreGlobal::ERROR_NOT_FOUND ) );
+		throw new NotFoundHttpException( Yii::$app->coreMessage->getMessage( CoreGlobal::ERROR_NOT_FOUND ) );
 	}
 
-	public function actionDelete( $slug ) {
+	public function actionDelete( $id ) {
 
 		// Find Model
-		$model	= PlanService::findBySlug( $slug );
+		$model		= $this->modelService->getById( $id );
 
 		// Delete/Render if exist
 		if( isset( $model ) ) {
 
-			$featuresList	= FeatureService::findActiveFeatures();
-			$planFeatures	= PlanService::getFeaturesForUpdate( $model, $featuresList );
+			$features		= $this->featureService->getIdNameList();
+			$planFeatures	= $this->modelService->getFeaturesForUpdate( $model, $features );
 
-			if( $model->load( Yii::$app->request->post(), 'ObjectData' ) ) {
+			if( $model->load( Yii::$app->request->post(), $model->getClassName() ) ) {
 
-				PlanService::delete( $model );
+				$this->modelService->delete( $model );
 
-				return $this->redirect( [ 'all' ] );
+				return $this->redirect( $this->returnUrl );
 			}
 
 	    	return $this->render( 'delete', [
 	    		'model' => $model,
-	    		'planFeatures' => $planFeatures,
-	    		'featuresList' => $featuresList
+	    		'featuresList' => $features,
+	    		'planFeatures' => $planFeatures
 	    	]);
 		}
 
 		// Model not found
-		throw new NotFoundHttpException( Yii::$app->cmgCoreMessage->getMessage( CoreGlobal::ERROR_NOT_FOUND ) );
+		throw new NotFoundHttpException( Yii::$app->coreMessage->getMessage( CoreGlobal::ERROR_NOT_FOUND ) );
 	}
 }
-
-?>

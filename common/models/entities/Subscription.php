@@ -25,31 +25,49 @@ use cmsgears\subscription\common\models\base\SubscriptionTables;
  * @property datetime $createdAt
  * @property datetime $modifiedAt
  */
-class Subscription extends \cmsgears\core\common\models\base\CmgEntity {
+class Subscription extends \cmsgears\core\common\models\base\Entity {
 
 	// Variables ---------------------------------------------------
 
-	// Constants/Statics --
+	// Globals -------------------------------
 
-	const STATUS_NEW		=  0;
-	const STATUS_ACTIVE		= 50;
+	// Constants --------------
+
+	const STATUS_NEW		=    0;
+	const STATUS_ACTIVE		= 1000;
+	const STATUS_EXPIRED	= 2000;
+	const STATUS_CANCELLED	= 3000;
 
 	public static $statusMap = [
 		self::STATUS_NEW => 'New',
-		self::STATUS_ACTIVE => 'Active'
+		self::STATUS_ACTIVE => 'Active',
+		self::STATUS_EXPIRED => 'Expired',
+		self::STATUS_CANCELLED => 'Cancelled'
 	];
 
-	// Public -------------
+	// Public -----------------
 
-	// Private/Protected --
+	// Protected --------------
+
+	// Variables -----------------------------
+
+	// Public -----------------
+
+	// Protected --------------
+
+	// Private ----------------
 
 	// Traits ------------------------------------------------------
 
 	// Constructor and Initialisation ------------------------------
 
-	// Instance Methods --------------------------------------------
+	// Instance methods --------------------------------------------
 
-	// yii\base\Component ----------------
+	// Yii interfaces ------------------------
+
+	// Yii parent classes --------------------
+
+	// yii\base\Component -----
 
     /**
      * @inheritdoc
@@ -57,7 +75,6 @@ class Subscription extends \cmsgears\core\common\models\base\CmgEntity {
     public function behaviors() {
 
         return [
-
             'timestampBehavior' => [
                 'class' => TimestampBehavior::className(),
 				'createdAtAttribute' => 'createdAt',
@@ -67,7 +84,7 @@ class Subscription extends \cmsgears\core\common\models\base\CmgEntity {
         ];
     }
 
-	// yii\base\Model --------------------
+	// yii\base\Model ---------
 
     /**
      * @inheritdoc
@@ -90,16 +107,22 @@ class Subscription extends \cmsgears\core\common\models\base\CmgEntity {
 	public function attributeLabels() {
 
 		return [
-			'planId' => Yii::$app->cmgSubscriptionMessage->getMessage( SubscriptionGlobal::FIELD_PLAN ),
-			'subscriberId' => Yii::$app->cmgSubscriptionMessage->getMessage( SubscriptionGlobal::FIELD_SUBSCRIBER ),
-			'status' => Yii::$app->cmgCoreMessage->getMessage( CoreGlobal::FIELD_STATUS )
+			'planId' => Yii::$app->subscriptionMessage->getMessage( SubscriptionGlobal::FIELD_PLAN ),
+			'subscriberId' => Yii::$app->subscriptionMessage->getMessage( SubscriptionGlobal::FIELD_SUBSCRIBER ),
+			'status' => Yii::$app->coreMessage->getMessage( CoreGlobal::FIELD_STATUS )
 		];
 	}
 
-	// Subscription ----------------------
+	// CMG interfaces ------------------------
+
+	// CMG parent classes --------------------
+
+	// Validators ----------------------------
+
+	// Subscription --------------------------
 
 	/**
-	 * @return ObjectData array
+	 * @return ObjectData
 	 */
 	public function getPlan() {
 
@@ -107,7 +130,7 @@ class Subscription extends \cmsgears\core\common\models\base\CmgEntity {
 	}
 
 	/**
-	 * @return ObjectData array
+	 * @return User
 	 */
 	public function getUser() {
 
@@ -124,7 +147,9 @@ class Subscription extends \cmsgears\core\common\models\base\CmgEntity {
 
 	// Static Methods ----------------------------------------------
 
-	// yii\db\ActiveRecord ---------------
+	// Yii parent classes --------------------
+
+	// yii\db\ActiveRecord ----
 
     /**
      * @inheritdoc
@@ -134,15 +159,17 @@ class Subscription extends \cmsgears\core\common\models\base\CmgEntity {
 		return SubscriptionTables::TABLE_SUBSCRIPTION;
 	}
 
-	// Subscription ----------------------
+	// CMG parent classes --------------------
 
-	// Create -------------
+	// Subscription --------------------------
 
-	// Read ---------------
+	// Read - Query -----------
 
-	// Update -------------
+	// Read - Find ------------
 
-	// Delete -------------
+	// Create -----------------
+
+	// Update -----------------
+
+	// Delete -----------------
 }
-
-?>

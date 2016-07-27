@@ -56,13 +56,15 @@ class Subscription extends \yii\base\Component {
 
 		$factory = Yii::$app->factory->getContainer();
 
-		$factory->set( 'cmsgears\notify\common\services\interfaces\entities\INotificationService', 'cmsgears\notify\common\services\entities\NotificationService' );
+		$factory->set( 'cmsgears\subscription\common\services\interfaces\entities\IFeatureService', 'cmsgears\subscription\common\services\entities\FeatureService' );
+		$factory->set( 'cmsgears\subscription\common\services\interfaces\entities\IPlanService', 'cmsgears\subscription\common\services\entities\PlanService' );
 	}
 
 	public function initEntityServices() {
 
 		$factory = Yii::$app->factory->getContainer();
 
-		$factory->set( 'notificationService', 'cmsgears\notify\common\services\entities\NotificationService' );
+		$factory->set( 'subFeatureService', 'cmsgears\subscription\common\services\entities\FeatureService' );
+		$factory->set( 'subPlanService', 'cmsgears\subscription\common\services\entities\PlanService' );
 	}
 }
