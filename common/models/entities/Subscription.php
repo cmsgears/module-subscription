@@ -24,6 +24,7 @@ use cmsgears\subscription\common\models\base\SubscriptionTables;
  * @property integer $status
  * @property datetime $createdAt
  * @property datetime $modifiedAt
+ * @property datetime $expirationDate
  */
 class Subscription extends \cmsgears\core\common\models\base\Entity {
 
@@ -93,9 +94,9 @@ class Subscription extends \cmsgears\core\common\models\base\Entity {
 
 		// model rules
         $rules = [
-            [ [ 'planId', 'subscriberId' ], 'required' ],
+            [ [ 'planId', 'subscriberId', 'expirationDate' ], 'required' ],
             [ [ 'id', 'status' ], 'safe' ],
-            [ [ 'createdAt', 'modifiedAt' ], 'date', 'format' => Yii::$app->formatter->datetimeFormat ]
+            [ [ 'createdAt', 'modifiedAt', 'expirationDate' ], 'date', 'format' => Yii::$app->formatter->datetimeFormat ]
         ];
 
 		return $rules;
@@ -127,6 +128,11 @@ class Subscription extends \cmsgears\core\common\models\base\Entity {
 	public function getPlan() {
 
     	return $this->hasOne( ObjectData::className(), [ 'id' => 'planId' ] );
+	}
+
+	public function getItems() {
+
+		return $this->hasMany( SubscriptionItem::className(), [ 'subscriptionId' => 'id' ] );
 	}
 
 	/**
@@ -166,6 +172,22 @@ class Subscription extends \cmsgears\core\common\models\base\Entity {
 	// Read - Query -----------
 
 	// Read - Find ------------
+
+	public static function findBySubscriberId( $id, $first = false ) {
+
+		$query	= self::find()->where( 'subscriberId=:id', [ ':id' => $id ] );
+
+		if( $first ) {
+
+			$query	= $query->one();
+		}
+		else {
+
+			$query	= $query->all();
+		}
+
+		return $query;
+	}
 
 	// Create -----------------
 

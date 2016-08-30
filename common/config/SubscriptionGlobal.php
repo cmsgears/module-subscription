@@ -5,8 +5,10 @@ class SubscriptionGlobal {
 
 	// Traits - Metas, Tags, Attachments, Addresses --------------------
 
-	const TYPE_PLAN				= 'sub-plan';
-	const TYPE_FEATURE			= 'sub-feature';
+	const TYPE_PLAN					= 'sub-plan';
+	const TYPE_FEATURE				= 'sub-feature';
+	const TYPE_SUBSCRIPTION			= 'subscription';
+	const TYPE_SUBSCRIPTION_ITEM	= 'sub-item';
 
 	// Permissions -----------------------------------------------------
 

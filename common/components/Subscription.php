@@ -58,6 +58,8 @@ class Subscription extends \yii\base\Component {
 
 		$factory->set( 'cmsgears\subscription\common\services\interfaces\entities\IFeatureService', 'cmsgears\subscription\common\services\entities\FeatureService' );
 		$factory->set( 'cmsgears\subscription\common\services\interfaces\entities\IPlanService', 'cmsgears\subscription\common\services\entities\PlanService' );
+		$factory->set( 'cmsgears\subscription\common\services\interfaces\entities\ISubscriptionService', 'cmsgears\subscription\common\services\entities\SubscriptionService' );
+		$factory->set( 'cmsgears\subscription\common\services\interfaces\entities\ISubscriptionItemService', 'cmsgears\subscription\common\services\entities\SubscriptionItemService' );
 	}
 
 	public function initEntityServices() {
@@ -66,5 +68,7 @@ class Subscription extends \yii\base\Component {
 
 		$factory->set( 'subFeatureService', 'cmsgears\subscription\common\services\entities\FeatureService' );
 		$factory->set( 'subPlanService', 'cmsgears\subscription\common\services\entities\PlanService' );
+		$factory->set( 'subscriptionService', 'cmsgears\subscription\common\services\entities\SubscriptionService' );
+		$factory->set( 'subscriptionItemService', 'cmsgears\subscription\common\services\entities\SubscriptionItemService' );
 	}
 }

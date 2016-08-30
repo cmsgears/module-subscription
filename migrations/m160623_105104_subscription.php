@@ -33,6 +33,7 @@ class m160623_105104_subscription extends \yii\db\Migration {
 
 		// Subscription
 		$this->upSubscription();
+		$this->upSubscriptionItem();
 
 		if( $this->fk ) {
 
@@ -48,7 +49,8 @@ class m160623_105104_subscription extends \yii\db\Migration {
 			'subscriberId' => $this->bigInteger( 20 )->notNull(),
 			'status' => $this->smallInteger( 6 )->defaultValue( 0 ),
 			'createdAt' => $this->dateTime()->notNull(),
-			'modifiedAt' => $this->dateTime()
+			'modifiedAt' => $this->dateTime(),
+			'expirationDate' => $this->dateTime()->notNull()
         ], $this->options );
 
         // Index for columns plan and user
@@ -56,11 +58,33 @@ class m160623_105104_subscription extends \yii\db\Migration {
 		$this->createIndex( 'idx_' . $this->prefix . 'subscription_user', $this->prefix . 'subscription', 'subscriberId' );
 	}
 
+	private function upSubscriptionItem() {
+
+		$this->createTable( $this->prefix . 'subscription_item', [
+            'id' => $this->bigPrimaryKey( 20 ),
+            'parentId' => $this->bigInteger( 20 )->notNull(),
+            'parentType' => $this->string( CoreGlobal::TEXT_SMALL )->defaultValue( null ),
+            'subscriptionId' => $this->bigInteger( 20 )->notNull(),
+            'userId' => $this->bigInteger( 20 )->notNull(),
+			'active' => $this->smallInteger( 1 )->defaultValue( null ),
+			'startDate' => $this->dateTime()->defaultValue( null ),
+			'endDate' => $this->dateTime()->defaultValue( null )
+        ], $this->options );
+
+		$this->createIndex( 'idx_' . $this->prefix . 'item_subscription', $this->prefix . 'item_subscription', 'subscriptionId' );
+		$this->createIndex( 'idx_' . $this->prefix . 'item_user', $this->prefix . 'item_user', 'userId' );
+	}
+
 	private function generateForeignKeys() {
 
 		// Subscription
         $this->addForeignKey( 'fk_' . $this->prefix . 'subscription_plan', $this->prefix . 'subscription', 'planId', $this->prefix . 'core_object', 'id', 'RESTRICT' );
 		$this->addForeignKey( 'fk_' . $this->prefix . 'subscription_user', $this->prefix . 'subscription', 'subscriberId', $this->prefix . 'core_user', 'id', 'RESTRICT' );
+
+
+		// Subscription Item
+		$this->addForeignKey( 'fk_' . $this->prefix . 'item_subscription', $this->prefix . 'item_subscription', 'subscriptionId', $this->cmgPrefix . 'subscription', 'id', 'NO ACTION' );
+		$this->addForeignKey( 'fk_' . $this->prefix . 'item_user', $this->prefix . 'item_user', 'userId', $this->cmgPrefix . 'core_user', 'id', 'NO ACTION' );
 	}
 
     public function down() {
