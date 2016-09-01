@@ -74,6 +74,10 @@ class SubscriptionItemService extends \cmsgears\core\common\services\base\Entity
 	// Read ---------------
 
     // Read - Models ---
+    public function getByParentId( $id ) {
+
+		return SubscriptionItem::getByParentId( $id );
+    }
 
     // Read - Lists ----
 

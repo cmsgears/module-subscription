@@ -11,6 +11,7 @@ interface ISubscriptionItemService extends \cmsgears\core\common\services\interf
 	// Read ---------------
 
     // Read - Models ---
+    public function getByParentId( $id );
 
     // Read - Lists ----
 

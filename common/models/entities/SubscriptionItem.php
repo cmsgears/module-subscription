@@ -138,6 +138,11 @@ class SubscriptionItem extends \cmsgears\core\common\models\base\Entity {
 
 	// Read - Find ------------
 
+	public static function getByParentId( $id ) {
+
+		return self::find()->where( 'parentId=:id', [ ':id' => $id ] )->one();
+	}
+
 	// Create -----------------
 
 	// Update -----------------
