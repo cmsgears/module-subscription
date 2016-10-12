@@ -62,17 +62,17 @@ class m160623_105104_subscription extends \yii\db\Migration {
 
 		$this->createTable( $this->prefix . 'subscription_item', [
             'id' => $this->bigPrimaryKey( 20 ),
-            'parentId' => $this->bigInteger( 20 )->notNull(),
-            'parentType' => $this->string( CoreGlobal::TEXT_SMALL )->defaultValue( null ),
             'subscriptionId' => $this->bigInteger( 20 )->notNull(),
             'userId' => $this->bigInteger( 20 )->notNull(),
+            'parentId' => $this->bigInteger( 20 )->notNull(),
+            'parentType' => $this->string( CoreGlobal::TEXT_SMALL )->defaultValue( null ),
 			'active' => $this->smallInteger( 1 )->defaultValue( null ),
 			'startDate' => $this->dateTime()->defaultValue( null ),
 			'endDate' => $this->dateTime()->defaultValue( null )
         ], $this->options );
 
-		$this->createIndex( 'idx_' . $this->prefix . 'item_subscription', $this->prefix . 'item_subscription', 'subscriptionId' );
-		$this->createIndex( 'idx_' . $this->prefix . 'item_user', $this->prefix . 'item_user', 'userId' );
+		$this->createIndex( 'idx_' . $this->prefix . 'subsc_item_parent', $this->prefix . 'subscription_item', 'subscriptionId' );
+		$this->createIndex( 'idx_' . $this->prefix . 'subsc_item_user', $this->prefix . 'subscription_item', 'userId' );
 	}
 
 	private function generateForeignKeys() {
@@ -83,8 +83,8 @@ class m160623_105104_subscription extends \yii\db\Migration {
 
 
 		// Subscription Item
-		$this->addForeignKey( 'fk_' . $this->prefix . 'item_subscription', $this->prefix . 'item_subscription', 'subscriptionId', $this->cmgPrefix . 'subscription', 'id', 'NO ACTION' );
-		$this->addForeignKey( 'fk_' . $this->prefix . 'item_user', $this->prefix . 'item_user', 'userId', $this->cmgPrefix . 'core_user', 'id', 'NO ACTION' );
+		$this->addForeignKey( 'fk_' . $this->prefix . 'subsc_item_parent', $this->prefix . 'subscription_item', 'subscriptionId', $this->prefix . 'subscription', 'id', 'NO ACTION' );
+		$this->addForeignKey( 'fk_' . $this->prefix . 'subsc_item_user', $this->prefix . 'subscription_item', 'userId', $this->prefix . 'core_user', 'id', 'NO ACTION' );
 	}
 
     public function down() {
@@ -95,6 +95,8 @@ class m160623_105104_subscription extends \yii\db\Migration {
 		}
 
         $this->dropTable( $this->prefix . 'subscription' );
+
+		$this->dropTable( $this->prefix . 'subscription_item' );
     }
 
 	private function dropForeignKeys() {
@@ -102,7 +104,9 @@ class m160623_105104_subscription extends \yii\db\Migration {
 		// Subscription
         $this->dropForeignKey( 'fk_' . $this->prefix . 'subscription_plan', $this->prefix . 'subscription' );
 		$this->dropForeignKey( 'fk_' . $this->prefix . 'subscription_user', $this->prefix . 'subscription' );
+
+		// Subscription Item
+        $this->dropForeignKey( 'fk_' . $this->prefix . 'subsc_item_parent', $this->prefix . 'subscription_item' );
+		$this->dropForeignKey( 'fk_' . $this->prefix . 'subsc_item_user', $this->prefix . 'subscription_item' );
 	}
 }
-
-?>
