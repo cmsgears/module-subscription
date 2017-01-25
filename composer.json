@@ -1,7 +1,7 @@
 {
 	"name": "cmsgears/module-subscription",
 	"description": "The subscription module for CMSGears based projects. It's required for subscribing selected resources.",
-	"homepage": "http://www.cmsgears.org", 
+	"homepage": "http://www.cmsgears.org",
 	"type": "package",
 	"keywords": [ "yii", "yii2", "cmsgears", "module", "cms" ],
 	"license": "GPLv3",
@@ -16,6 +16,7 @@
     "require": {
         "php": ">=5.4.0",
         "cmsgears/module-core": "*",
+        "cmsgears/module-cms": "*",
         "cmsgears/module-cart": "*"
     }
 }
