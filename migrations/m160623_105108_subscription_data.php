@@ -11,7 +11,11 @@ use cmsgears\core\common\utilities\DateUtil;
 
 class m160623_105108_subscription_data extends \yii\db\Migration {
 
-	public $prefix;
+	// Public Variables
+
+	// Private Variables
+
+	private $prefix;
 
 	private $site;
 
@@ -19,10 +23,11 @@ class m160623_105108_subscription_data extends \yii\db\Migration {
 
 	public function init() {
 
-		$this->prefix		= 'cmg_';
+		// Table prefix
+		$this->prefix	= Yii::$app->migration->cmgPrefix;
 
 		$this->site		= Site::findBySlug( CoreGlobal::SITE_MAIN );
-		$this->master	= User::findByUsername( 'demomaster' );
+		$this->master	= User::findByUsername( Yii::$app->migration->getSiteMaster() );
 
 		Yii::$app->core->setSite( $this->site );
 	}
@@ -40,28 +45,28 @@ class m160623_105108_subscription_data extends \yii\db\Migration {
 		$columns = [ 'createdBy', 'modifiedBy', 'name', 'slug', 'homeUrl', 'type', 'icon', 'description', 'createdAt', 'modifiedAt' ];
 
 		$roles = [
-			[ $this->master->id, $this->master->id, 'Subscription Manager', 'subscription-manager', 'dashboard', CoreGlobal::TYPE_SYSTEM, null, 'The role Subscription Manager is limited to manage subscriptions from admin.', DateUtil::getDateTime(), DateUtil::getDateTime() ]
+			[ $this->master->id, $this->master->id, 'Subscription Admin', 'subscription-admin', 'dashboard', CoreGlobal::TYPE_SYSTEM, null, 'The role Subscription Admin is limited to manage subscriptions from admin.', DateUtil::getDateTime(), DateUtil::getDateTime() ]
 		];
 
 		$this->batchInsert( $this->prefix . 'core_role', $columns, $roles );
 
 		$superAdminRole		= Role::findBySlugType( 'super-admin', CoreGlobal::TYPE_SYSTEM );
 		$adminRole			= Role::findBySlugType( 'admin', CoreGlobal::TYPE_SYSTEM );
-		$subManagerRole		= Role::findBySlugType( 'subscription-manager', CoreGlobal::TYPE_SYSTEM );
+		$subAdminRole		= Role::findBySlugType( 'subscription-admin', CoreGlobal::TYPE_SYSTEM );
 
 		// Permissions
 
 		$columns = [ 'createdBy', 'modifiedBy', 'name', 'slug', 'type', 'icon', 'description', 'createdAt', 'modifiedAt' ];
 
 		$permissions = [
-			[ $this->master->id, $this->master->id, 'Subscription', 'subscription', CoreGlobal::TYPE_SYSTEM, null, 'The permission subscription is to manage subscriptions and subscribers from admin.', DateUtil::getDateTime(), DateUtil::getDateTime() ]
+			[ $this->master->id, $this->master->id, 'Admin Subscriptions', 'admin-subscriptions', CoreGlobal::TYPE_SYSTEM, null, 'The permission admin subscriptions is to manage subscriptions and subscribers from admin.', DateUtil::getDateTime(), DateUtil::getDateTime() ]
 		];
 
 		$this->batchInsert( $this->prefix . 'core_permission', $columns, $permissions );
 
 		$adminPerm			= Permission::findBySlugType( 'admin', CoreGlobal::TYPE_SYSTEM );
 		$userPerm			= Permission::findBySlugType( 'user', CoreGlobal::TYPE_SYSTEM );
-		$subPerm			= Permission::findBySlugType( 'subscription', CoreGlobal::TYPE_SYSTEM );
+		$subPerm			= Permission::findBySlugType( 'admin-subscriptions', CoreGlobal::TYPE_SYSTEM );
 
 		// RBAC Mapping
 
@@ -70,7 +75,7 @@ class m160623_105108_subscription_data extends \yii\db\Migration {
 		$mappings = [
 			[ $superAdminRole->id, $subPerm->id ],
 			[ $adminRole->id, $subPerm->id ],
-			[ $subManagerRole->id, $adminPerm->id ], [ $subManagerRole->id, $userPerm->id ], [ $subManagerRole->id, $subPerm->id ]
+			[ $subAdminRole->id, $adminPerm->id ], [ $subAdminRole->id, $userPerm->id ], [ $subAdminRole->id, $subPerm->id ]
 		];
 
 		$this->batchInsert( $this->prefix . 'core_role_permission', $columns, $mappings );
@@ -83,5 +88,3 @@ class m160623_105108_subscription_data extends \yii\db\Migration {
         return true;
     }
 }
-
-?>
