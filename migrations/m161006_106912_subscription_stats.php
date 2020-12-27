@@ -54,8 +54,10 @@ class m161006_106912_subscription_stats extends \cmsgears\core\common\base\Migra
 
 		$tableData = [
 			[ $this->prefix . 'subscription_plan', 'rows', 0 ],
+			[ $this->prefix . 'subscription_plan_item', 'rows', 0 ],
+			[ $this->prefix . 'subscription_plan_meta', 'rows', 0 ],
+			[ $this->prefix . 'subscription_plan_follower', 'rows', 0 ],
 			[ $this->prefix . 'subscription_feature', 'rows', 0 ],
-			[ $this->prefix . 'subscription_unit', 'rows', 0 ],
 			[ $this->prefix . 'subscription_matrix', 'rows', 0 ],
 			[ $this->prefix . 'subscription', 'rows', 0 ],
 			[ $this->prefix . 'subscription_item', 'rows', 0 ]
@@ -67,8 +69,11 @@ class m161006_106912_subscription_stats extends \cmsgears\core\common\base\Migra
 	public function down() {
 
 		Stats::deleteByTableName( SubscriptionTables::getTableName( SubscriptionTables::TABLE_SUBSCRIPTION_PLAN ) );
+		Stats::deleteByTableName( SubscriptionTables::getTableName( SubscriptionTables::TABLE_SUBSCRIPTION_PLAN_ITEM ) );
+		Stats::deleteByTableName( SubscriptionTables::getTableName( SubscriptionTables::TABLE_SUBSCRIPTION_PLAN_META ) );
+		Stats::deleteByTableName( SubscriptionTables::getTableName( SubscriptionTables::TABLE_SUBSCRIPTION_PLAN_FOLLOWER ) );
+
 		Stats::deleteByTableName( SubscriptionTables::getTableName( SubscriptionTables::TABLE_SUBSCRIPTION_FEATURE ) );
-		Stats::deleteByTableName( SubscriptionTables::getTableName( SubscriptionTables::TABLE_SUBSCRIPTION_UNIT ) );
 		Stats::deleteByTableName( SubscriptionTables::getTableName( SubscriptionTables::TABLE_SUBSCRIPTION_MATRIX ) );
 
 		Stats::deleteByTableName( SubscriptionTables::getTableName( SubscriptionTables::TABLE_SUBSCRIPTION ) );

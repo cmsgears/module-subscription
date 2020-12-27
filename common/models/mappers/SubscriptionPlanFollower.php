@@ -1,25 +1,32 @@
 <?php
-namespace cmsgears\subscription\common\models\entities;
+/**
+ * This file is part of CMSGears Framework. Please view License file distributed
+ * with the source code for license details.
+ *
+ * @link https://www.cmsgears.org/
+ * @copyright Copyright (c) 2015 VulpineCode Technologies Pvt. Ltd.
+ */
 
-// Yii Imports
-use \Yii;
-use yii\helpers\ArrayHelper;
+namespace cmsgears\subscription\common\models\mappers;
 
 // CMG Imports
-use cmsgears\core\common\config\CoreGlobal;
-use cmsgears\cart\common\config\CartGlobal;
+use cmsgears\subscription\common\models\base\SubscriptionTables;
+use cmsgears\subscription\common\models\entities\SubscriptionPlan;
 
-class Voucher extends \cmsgears\cart\common\models\entities\Voucher {
+/**
+ * SubscriptionPlanFollower represents interest of user in Job.
+ *
+ * @inheritdoc
+ *
+ * @since 1.0.0
+ */
+class SubscriptionPlanFollower extends \cmsgears\core\common\models\base\Follower {
 
 	// Variables ---------------------------------------------------
 
 	// Globals -------------------------------
 
 	// Constants --------------
-
-	const TYPE_SUBSCRIPTION_SETUP			=  'sub-setup$';
-	const TYPE_SUBSCRIPTION_SETUP_PERCENT	=  'sub-setup%';
-	const TYPE_SUBSCRIPTION_RECURRING		=  'recurring';
 
 	// Public -----------------
 
@@ -53,7 +60,17 @@ class Voucher extends \cmsgears\cart\common\models\entities\Voucher {
 
 	// Validators ----------------------------
 
-	// Voucher -------------------------------
+	// SubscriptionPlanFollower --------------
+
+	/**
+	 * Return corresponding Subscription Plan.
+	 *
+	 * @return \cmsgears\subscription\common\models\entities\SubscriptionPlan
+	 */
+	public function getParent() {
+
+		return $this->hasOne( SubscriptionPlan::class, [ 'id' => 'parentId' ] );
+	}
 
 	// Static Methods ----------------------------------------------
 
@@ -61,9 +78,17 @@ class Voucher extends \cmsgears\cart\common\models\entities\Voucher {
 
 	// yii\db\ActiveRecord ----
 
+	/**
+	 * @inheritdoc
+	 */
+	public static function tableName() {
+
+		return SubscriptionTables::getTableName( SubscriptionTables::TABLE_SUBSCRIPTION_PLAN_FOLLOWER );
+	}
+
 	// CMG parent classes --------------------
 
-	// Voucher -------------------------------
+	// SubscriptionPlanFollower --------------
 
 	// Read - Query -----------
 
@@ -74,8 +99,5 @@ class Voucher extends \cmsgears\cart\common\models\entities\Voucher {
 	// Update -----------------
 
 	// Delete -----------------
-}
 
-Voucher::$typesMap[ Voucher::TYPE_SUBSCRIPTION_SETUP ] 			= 'Setup Fee $';
-Voucher::$typesMap[ Voucher::TYPE_SUBSCRIPTION_SETUP_PERCENT ] 	= 'Setup Fee %';
-Voucher::$typesMap[ Voucher::TYPE_SUBSCRIPTION_RECURRING ] 		= 'Recurring';
+}

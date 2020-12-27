@@ -1,6 +1,6 @@
 {
 	"name": "cmsgears/module-subscription",
-	"description": "The subscription module for CMSGears based projects. It's required for subscribing selected resources.",
+	"description": "The Subscription Module provides the features to manage subscription features and subscriptions.",
 	"homepage": "http://www.cmsgears.org",
 	"type": "package",
 	"keywords": [ "yii", "yii2", "cmsgears", "module", "cms" ],
