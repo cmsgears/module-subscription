@@ -79,37 +79,37 @@ class m161006_105108_subscription_data extends \cmsgears\core\common\base\Migrat
 		$columns = [ 'createdBy', 'modifiedBy', 'name', 'slug', 'adminUrl', 'homeUrl', 'type', 'icon', 'description', 'createdAt', 'modifiedAt' ];
 
 		$roles = [
-			[ $this->master->id, $this->master->id, 'Subscriptions Admin', SubscriptionGlobal::ROLE_SUBSCRIPTIONS_ADMIN, 'dashboard', NULL, CoreGlobal::TYPE_SYSTEM, NULL, 'The role Subscription Admin is limited to manage subscriptions from admin.', DateUtil::getDateTime(), DateUtil::getDateTime() ]
+			[ $this->master->id, $this->master->id, 'Subscription Admin', SubscriptionGlobal::ROLE_SUBSCRIPTION_ADMIN, 'dashboard', NULL, CoreGlobal::TYPE_SYSTEM, NULL, 'The role Subscription Admin is limited to manage subscriptions from admin.', DateUtil::getDateTime(), DateUtil::getDateTime() ]
 		];
 
 		$this->batchInsert( $this->prefix . 'core_role', $columns, $roles );
 
 		$superAdminRole	= Role::findBySlugType( CoreGlobal::ROLE_SUPER_ADMIN, CoreGlobal::TYPE_SYSTEM );
 		$adminRole		= Role::findBySlugType( CoreGlobal::ROLE_ADMIN, CoreGlobal::TYPE_SYSTEM );
-		$subsAdminRole	= Role::findBySlugType( SubscriptionGlobal::ROLE_SUBSCRIPTION_ADMIN, CoreGlobal::TYPE_SYSTEM );
+		$subAdminRole	= Role::findBySlugType( SubscriptionGlobal::ROLE_SUBSCRIPTION_ADMIN, CoreGlobal::TYPE_SYSTEM );
 
 		// Permissions
 
 		$columns = [ 'createdBy', 'modifiedBy', 'name', 'slug', 'type', 'icon', 'description', 'createdAt', 'modifiedAt' ];
 
 		$permissions = [
-			[ $this->master->id, $this->master->id, 'Admin Subscriptions', SubscriptionGlobal::PERM_SUBSCRIPTIONS_ADMIN, CoreGlobal::TYPE_SYSTEM, null, 'The permission admin subscriptions is to manage subscriptions from admin.', DateUtil::getDateTime(), DateUtil::getDateTime() ]
+			[ $this->master->id, $this->master->id, 'Admin Subscription', SubscriptionGlobal::PERM_SUBSCRIPTION_ADMIN, CoreGlobal::TYPE_SYSTEM, null, 'The permission admin subscriptions is to manage subscriptions from admin.', DateUtil::getDateTime(), DateUtil::getDateTime() ]
 		];
 
 		$this->batchInsert( $this->prefix . 'core_permission', $columns, $permissions );
 
 		$adminPerm		= Permission::findBySlugType( CoreGlobal::PERM_ADMIN, CoreGlobal::TYPE_SYSTEM );
 		$userPerm		= Permission::findBySlugType( CoreGlobal::PERM_USER, CoreGlobal::TYPE_SYSTEM );
-		$subsAdminPerm	= Permission::findBySlugType( SubscriptionGlobal::PERM_SUBSCRIPTIONS_ADMIN, CoreGlobal::TYPE_SYSTEM );
+		$subAdminPerm	= Permission::findBySlugType( SubscriptionGlobal::PERM_SUBSCRIPTION_ADMIN, CoreGlobal::TYPE_SYSTEM );
 
 		// RBAC Mapping
 
 		$columns = [ 'roleId', 'permissionId' ];
 
 		$mappings = [
-			[ $superAdminRole->id, $subsAdminPerm->id ],
-			[ $adminRole->id, $subsAdminPerm->id ],
-			[ $subsAdminRole->id, $adminPerm->id ], [ $subsAdminRole->id, $userPerm->id ], [ $subsAdminRole->id, $subsAdminPerm->id ]
+			[ $superAdminRole->id, $subAdminPerm->id ],
+			[ $adminRole->id, $subAdminPerm->id ],
+			[ $subAdminRole->id, $adminPerm->id ], [ $subAdminRole->id, $userPerm->id ], [ $subAdminRole->id, $subAdminPerm->id ]
 		];
 
 		$this->batchInsert( $this->prefix . 'core_role_permission', $columns, $mappings );

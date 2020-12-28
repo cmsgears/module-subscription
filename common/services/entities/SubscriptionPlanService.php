@@ -26,7 +26,6 @@ use cmsgears\subscription\common\services\interfaces\entities\ISubscriptionPlanS
 use cmsgears\subscription\common\services\interfaces\resources\ISubscriptionPlanMetaService;
 
 use cmsgears\core\common\services\traits\base\SimilarTrait;
-use cmsgears\core\common\services\traits\resources\SocialLinkTrait;
 use cmsgears\core\common\services\traits\mappers\CategoryTrait;
 
 /**
@@ -65,7 +64,6 @@ class SubscriptionPlanService extends \cmsgears\cms\common\services\base\Content
 
 	use CategoryTrait;
 	use SimilarTrait;
-	use SocialLinkTrait;
 
 	// Constructor and Initialisation ------------------------------
 

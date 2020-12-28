@@ -10,6 +10,8 @@
 namespace cmsgears\subscription\common\services\interfaces\entities;
 
 // CMG Imports
+use cmsgears\core\common\services\interfaces\base\ISimilar;
+use cmsgears\core\common\services\interfaces\mappers\ICategory;
 use cmsgears\cms\common\services\interfaces\base\IContentService;
 
 /**
@@ -17,7 +19,7 @@ use cmsgears\cms\common\services\interfaces\base\IContentService;
  *
  * @since 1.0.0
  */
-interface ISubscriptionPlanService extends IContentService {
+interface ISubscriptionPlanService extends IContentService, ICategory, ISimilar {
 
 	// Data Provider ------
 

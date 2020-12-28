@@ -52,11 +52,11 @@ class SubscriptionGlobal {
 
 	// Roles -----------------------------------------------------------
 
-	const ROLE_SUBSCRIPTIONS_ADMIN = 'subscriptions-admin';
+	const ROLE_SUBSCRIPTION_ADMIN = 'subscription-admin';
 
 	// Permissions -----------------------------------------------------
 
-	const PERM_SUBSCRIPTIONS_ADMIN = 'admins-subscription';
+	const PERM_SUBSCRIPTION_ADMIN = 'admin-subscription';
 
 	// Plans
 

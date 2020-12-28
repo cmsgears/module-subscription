@@ -36,8 +36,16 @@ use cmsgears\core\common\models\interfaces\resources\IData;
 use cmsgears\core\common\models\interfaces\resources\IGridCache;
 use cmsgears\core\common\models\interfaces\resources\IMeta;
 use cmsgears\core\common\models\interfaces\resources\IVisual;
+use cmsgears\core\common\models\interfaces\mappers\ICategory;
+use cmsgears\core\common\models\interfaces\mappers\IFile;
 use cmsgears\core\common\models\interfaces\mappers\IFollower;
+use cmsgears\core\common\models\interfaces\mappers\IOption;
+use cmsgears\core\common\models\interfaces\mappers\ITag;
+
 use cmsgears\cms\common\models\interfaces\resources\IPageContent;
+use cmsgears\cms\common\models\interfaces\mappers\IBlock;
+use cmsgears\cms\common\models\interfaces\mappers\IElement;
+use cmsgears\cms\common\models\interfaces\mappers\IWidget;
 
 use cmsgears\subscription\common\models\base\SubscriptionTables;
 use cmsgears\subscription\common\models\resources\SubscriptionPlanItem;
@@ -59,7 +67,11 @@ use cmsgears\core\common\models\traits\resources\DataTrait;
 use cmsgears\core\common\models\traits\resources\GridCacheTrait;
 use cmsgears\core\common\models\traits\resources\MetaTrait;
 use cmsgears\core\common\models\traits\resources\VisualTrait;
+use cmsgears\core\common\models\traits\mappers\CategoryTrait;
+use cmsgears\core\common\models\traits\mappers\FileTrait;
 use cmsgears\core\common\models\traits\mappers\FollowerTrait;
+use cmsgears\core\common\models\traits\mappers\OptionTrait;
+use cmsgears\core\common\models\traits\mappers\TagTrait;
 use cmsgears\cms\common\models\traits\resources\PageContentTrait;
 
 use cmsgears\core\common\behaviors\AuthorBehavior;
@@ -108,8 +120,9 @@ use cmsgears\core\common\behaviors\AuthorBehavior;
  * @since 1.0.0
  */
 class SubscriptionPlan extends \cmsgears\core\common\models\base\Entity implements IApproval, IAuthor,
-	IComment, IContent, IData, IFeatured, IFollower, IGridCache, IMeta, IMultiSite, INameType, IOwner,
-	IPageContent, ISlugType, ITab, IVisibility, IVisual {
+	IBlock, ICategory, IComment, IContent, IData, IElement, IFeatured, IFile, IFollower, IGridCache,
+	IMeta, IMultiSite, INameType, IOption, IOwner, IPageContent, ISlugType, ITab, ITag, IVisibility,
+	IVisual, IWidget {
 
 	// Variables ---------------------------------------------------
 
@@ -147,21 +160,28 @@ class SubscriptionPlan extends \cmsgears\core\common\models\base\Entity implemen
 
 	use ApprovalTrait;
     use AuthorTrait;
+	use BlockTrait;
+	use CategoryTrait;
 	use CommentTrait;
     use ContentTrait;
 	use DataTrait;
+	use ElementTrait;
 	use FeaturedTrait;
+	use FileTrait;
 	use FollowerTrait;
 	use GridCacheTrait;
 	use MetaTrait;
 	use MultiSiteTrait;
 	use NameTypeTrait;
+	use OptionTrait;
 	use OwnerTrait;
 	use PageContentTrait;
 	use SlugTypeTrait;
 	use TabTrait;
+	use TagTrait;
 	use VisibilityTrait;
 	use VisualTrait;
+	use WidgetTrait;
 
 	// Constructor and Initialisation ------------------------------
 
