@@ -28,7 +28,7 @@ use cmsgears\core\common\utilities\DateUtil;
  *
  * @since 1.0.0
  */
-class SubscriptionItemService extends \cmsgears\core\common\services\base\ModelResourceService implements ISubscriptionItemService {
+class SubscriptionItemService extends \cmsgears\core\common\services\base\ResourceService implements ISubscriptionItemService {
 
 	// Variables ---------------------------------------------------
 
@@ -129,12 +129,6 @@ class SubscriptionItemService extends \cmsgears\core\common\services\base\ModelR
 					'desc' => [ "$modelTable.total" => SORT_DESC ],
 					'default' => SORT_DESC,
 					'label' => 'Total'
-				],
-				'currency' => [
-					'asc' => [ "$modelTable.currency" => SORT_ASC ],
-					'desc' => [ "$modelTable.currency" => SORT_DESC ],
-					'default' => SORT_DESC,
-					'label' => 'Currency'
 				],
 				'startDate' => [
 					'asc' => [ "$modelTable.startDate" => SORT_ASC ],
@@ -248,7 +242,7 @@ class SubscriptionItemService extends \cmsgears\core\common\services\base\ModelR
 
 		$date = DateUtil::getDate();
 
-		if( isset( $model->endDate ) && DateUtil::greaterThan( $model->endDate, $date ) ) {
+		if( !empty( $model->endDate ) && DateUtil::greaterThan( $model->endDate, $date ) ) {
 
 			$model->status = SubscriptionItem::STATUS_EXPIRED;
 		}
@@ -280,7 +274,7 @@ class SubscriptionItemService extends \cmsgears\core\common\services\base\ModelR
 		$date = DateUtil::getDate();
 
 		if( !$model->status == SubscriptionItem::STATUS_EXPIRED &&
-			( empty( $model->endDate ) || ( isset( $model->endDate ) && DateUtil::greaterThan( $model->endDate, $date ) ) ) ) {
+			( empty( $model->endDate ) || DateUtil::greaterThan( $model->endDate, $date ) ) ) {
 
 			$this->updateStatus( $model, SubscriptionItem::STATUS_EXPIRED );
 		}

@@ -121,8 +121,6 @@ class m161006_105104_subscription extends \cmsgears\core\common\base\Migration {
 			'planId' => $this->bigInteger( 20 )->notNull(),
 			'createdBy' => $this->bigInteger( 20 )->notNull(),
 			'modifiedBy' => $this->bigInteger( 20 ),
-            'parentId' => $this->bigInteger( 20 )->notNull(),
-            'parentType' => $this->string( Yii::$app->core->mediumText )->notNull(),
 			'name' => $this->string( Yii::$app->core->xLargeText )->notNull(),
 			'description' => $this->string( Yii::$app->core->xtraLargeText )->defaultValue( null ),
 			'status' => $this->smallInteger( 6 )->defaultValue( 0 ),
@@ -130,7 +128,6 @@ class m161006_105104_subscription extends \cmsgears\core\common\base\Migration {
 			'price' => $this->float()->defaultValue( 0 ),
 			'discount' => $this->float()->defaultValue( 0 ),
 			'total' => $this->float()->defaultValue( 0 ),
-			'currency' => $this->mediumText()->defaultValue( null ),
 			'startDate' => $this->dateTime()->defaultValue( null ),
 			'endDate' => $this->dateTime()->defaultValue( null ),
 			'createdAt' => $this->dateTime()->notNull(),
@@ -278,8 +275,6 @@ class m161006_105104_subscription extends \cmsgears\core\common\base\Migration {
             'userId' => $this->bigInteger( 20 ),
 			'createdBy' => $this->bigInteger( 20 )->notNull(),
 			'modifiedBy' => $this->bigInteger( 20 ),
-            'parentId' => $this->bigInteger( 20 )->notNull(), // Id set to plan item id, if subscription is plan based
-            'parentType' => $this->string( Yii::$app->core->mediumText )->notNull(), // Type set to plan item, if subscription is plan based
 			'name' => $this->string( Yii::$app->core->xLargeText )->notNull(),
 			'description' => $this->string( Yii::$app->core->xtraLargeText )->defaultValue( null ),
 			'status' => $this->smallInteger( 6 )->defaultValue( 0 ),
@@ -287,7 +282,6 @@ class m161006_105104_subscription extends \cmsgears\core\common\base\Migration {
 			'price' => $this->float()->defaultValue( 0 ),
 			'discount' => $this->float()->defaultValue( 0 ),
 			'total' => $this->float()->defaultValue( 0 ),
-			'currency' => $this->mediumText()->defaultValue( null ),
 			'startDate' => $this->dateTime()->defaultValue( null ),
 			'endDate' => $this->dateTime()->defaultValue( null ),
 			'createdAt' => $this->dateTime()->notNull(),

@@ -28,7 +28,7 @@ use cmsgears\core\common\utilities\DateUtil;
  *
  * @since 1.0.0
  */
-class SubscriptionPlanItemService extends \cmsgears\core\common\services\base\ModelResourceService implements ISubscriptionPlanItemService {
+class SubscriptionPlanItemService extends \cmsgears\core\common\services\base\ResourceService implements ISubscriptionPlanItemService {
 
 	// Variables ---------------------------------------------------
 
@@ -130,12 +130,6 @@ class SubscriptionPlanItemService extends \cmsgears\core\common\services\base\Mo
 					'default' => SORT_DESC,
 					'label' => 'Total'
 				],
-				'currency' => [
-					'asc' => [ "$modelTable.currency" => SORT_ASC ],
-					'desc' => [ "$modelTable.currency" => SORT_DESC ],
-					'default' => SORT_DESC,
-					'label' => 'Currency'
-				],
 				'startDate' => [
 					'asc' => [ "$modelTable.startDate" => SORT_ASC ],
 					'desc' => [ "$modelTable.startDate" => SORT_DESC ],
@@ -194,7 +188,7 @@ class SubscriptionPlanItemService extends \cmsgears\core\common\services\base\Mo
 
 		$search = [
 			'name' => "$modelTable.name",
-			'description' => "$modelTable.description",
+			'desc' => "$modelTable.description",
 			'content' => "$modelTable.content"
 		];
 
@@ -211,7 +205,11 @@ class SubscriptionPlanItemService extends \cmsgears\core\common\services\base\Mo
 
 		$config[ 'report-col' ]	= [
 			'name' => "$modelTable.name",
-			'description' => "$modelTable.description",
+			'desc' => "$modelTable.description",
+			'status' => "$modelTable.status",
+			'price' => "$modelTable.price",
+			'discount' => "$modelTable.discount",
+			'total' => "$modelTable.total",
 			'startDate' => "$modelTable.startDate",
 			'endDate' => "$modelTable.endDate",
 			'content' => "$modelTable.content"
@@ -222,6 +220,15 @@ class SubscriptionPlanItemService extends \cmsgears\core\common\services\base\Mo
 		return parent::findPage( $config );
 	}
 
+	public function getPageByPlanId( $planId, $config = [] ) {
+
+		$modelTable	= $this->getModelTable();
+
+		$config[ 'conditions' ][ "$modelTable.planId" ] = $planId;
+
+		return $this->getPage( $config );
+	}
+
 	// Read - Lists ----
 
 	// Read - Maps -----
@@ -229,6 +236,18 @@ class SubscriptionPlanItemService extends \cmsgears\core\common\services\base\Mo
 	// Read - Others ---
 
 	// Create -------------
+
+	public function create( $model, $config = [] ) {
+
+		// Update Item Total
+		$model->refreshTotal();
+
+		$model = parent::create( $model, $config );
+
+		Yii::$app->factory->get( 'subscriptionPlanService' )->refreshTotal( $model->plan );
+
+		return $model;
+	}
 
 	// Update -------------
 
@@ -248,14 +267,22 @@ class SubscriptionPlanItemService extends \cmsgears\core\common\services\base\Mo
 
 		$date = DateUtil::getDate();
 
-		if( isset( $model->endDate ) && DateUtil::greaterThan( $model->endDate, $date ) ) {
+		if( !empty( $model->endDate ) && DateUtil::greaterThan( $model->endDate, $date ) ) {
 
 			$model->status = SubscriptionPlanItem::STATUS_EXPIRED;
 		}
 
-		return parent::update( $model, [
+		// Update Item Total
+		$model->refreshTotal();
+
+		$model = parent::update( $model, [
 			'attributes' => $attributes
 		]);
+
+		// Update Plan Total
+		Yii::$app->factory->get( 'subscriptionPlanService' )->refreshTotal( $model->plan );
+
+		return $model;
 	}
 
 	public function updateStatus( $model, $status ) {
@@ -263,6 +290,8 @@ class SubscriptionPlanItemService extends \cmsgears\core\common\services\base\Mo
 		$model->status = $status;
 
 		$model->update();
+
+		Yii::$app->factory->get( 'subscriptionPlanService' )->refreshTotal( $model->plan );
 
 		return $model;
 	}
@@ -280,7 +309,7 @@ class SubscriptionPlanItemService extends \cmsgears\core\common\services\base\Mo
 		$date = DateUtil::getDate();
 
 		if( !$model->status == SubscriptionPlanItem::STATUS_EXPIRED &&
-			( empty( $model->endDate ) || ( isset( $model->endDate ) && DateUtil::greaterThan( $model->endDate, $date ) ) ) ) {
+			( empty( $model->endDate ) || DateUtil::greaterThan( $model->endDate, $date ) ) ) {
 
 			$this->updateStatus( $model, SubscriptionPlanItem::STATUS_EXPIRED );
 		}

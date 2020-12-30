@@ -10,14 +10,14 @@
 namespace cmsgears\subscription\common\services\interfaces\resources;
 
 // CMG Imports
-use cmsgears\core\common\services\interfaces\base\IModelResourceService;
+use cmsgears\core\common\services\interfaces\base\IResourceService;
 
 /**
  * ISubscriptionItemService declares methods specific to Subscription Items.
  *
  * @since 1.0.0
  */
-interface ISubscriptionItemService extends IModelResourceService {
+interface ISubscriptionItemService extends IResourceService {
 
 	// Data Provider ------
 

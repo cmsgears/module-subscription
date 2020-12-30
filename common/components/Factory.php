@@ -66,8 +66,8 @@ class Factory extends \cmsgears\core\common\base\Component {
 
 		$factory = Yii::$app->factory->getContainer();
 
-		$factory->set( 'cmsgears\subscription\common\services\interfaces\resources\ISubscriptionPlanItemService', 'cmsgears\subscription\common\services\resources\ISubscriptionPlanItemService' );
-		$factory->set( 'cmsgears\subscription\common\services\interfaces\resources\ISubscriptionPlanMetaService', 'cmsgears\subscription\common\services\resources\ISubscriptionPlanMetaService' );
+		$factory->set( 'cmsgears\subscription\common\services\interfaces\resources\ISubscriptionPlanItemService', 'cmsgears\subscription\common\services\resources\SubscriptionPlanItemService' );
+		$factory->set( 'cmsgears\subscription\common\services\interfaces\resources\ISubscriptionPlanMetaService', 'cmsgears\subscription\common\services\resources\SubscriptionPlanMetaService' );
 
 		$factory->set( 'cmsgears\subscription\common\services\interfaces\resources\ISubscriptionService', 'cmsgears\subscription\common\services\entities\SubscriptionService' );
 		$factory->set( 'cmsgears\subscription\common\services\interfaces\resources\ISubscriptionItemService', 'cmsgears\subscription\common\services\entities\SubscriptionItemService' );
@@ -93,8 +93,8 @@ class Factory extends \cmsgears\core\common\base\Component {
 
 		$factory = Yii::$app->factory->getContainer();
 
-		$factory->set( 'subscriptionPlanItemService', 'cmsgears\subscription\common\services\resources\ISubscriptionPlanItemService' );
-		$factory->set( 'subscriptionPlanMetaService', 'cmsgears\subscription\common\services\resources\ISubscriptionPlanMetaService' );
+		$factory->set( 'subscriptionPlanItemService', 'cmsgears\subscription\common\services\resources\SubscriptionPlanItemService' );
+		$factory->set( 'subscriptionPlanMetaService', 'cmsgears\subscription\common\services\resources\SubscriptionPlanMetaService' );
 
 		$factory->set( 'subscriptionService', 'cmsgears\subscription\common\services\entities\SubscriptionService' );
 		$factory->set( 'subscriptionItemService', 'cmsgears\subscription\common\services\entities\SubscriptionItemService' );

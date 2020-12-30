@@ -39,6 +39,8 @@ interface ISubscriptionPlanService extends IContentService, ICategory, ISimilar 
 
 	// Update -------------
 
+	public function refreshTotal( $model );
+
 	public function bindFeatures( $binder );
 
 	// Delete -------------

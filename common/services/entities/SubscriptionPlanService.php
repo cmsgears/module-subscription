@@ -329,16 +329,11 @@ class SubscriptionPlanService extends \cmsgears\cms\common\services\base\Content
 
 		$avatar = isset( $config[ 'avatar' ] ) ? $config[ 'avatar' ] : null;
 
-		$modelClass = static::$modelClass;
-
 		// Save Files
 		$this->fileService->saveFiles( $model, [ 'avatarId' => $avatar ] );
 
-		// Default Private
-		$model->visibility = $model->visibility ?? $modelClass::VISIBILITY_PRIVATE;
-
-		// Default New
-		$model->status = $model->status ?? $modelClass::STATUS_NEW;
+		// Update Item Total
+		$model->refreshTotal();
 
 		// Create Model
 		return parent::create( $model, $config );
@@ -586,8 +581,20 @@ class SubscriptionPlanService extends \cmsgears\cms\common\services\base\Content
 			]);
 		}
 
+		// Update Item Total
+		$model->refreshTotal();
+
 		return parent::update( $model, [
 			'attributes' => $attributes
+		]);
+	}
+
+	public function refreshTotal( $model ) {
+
+		$model->refreshTotal();
+
+		return parent::update( $model, [
+			'attributes' => [ 'price', 'discount', 'total' ]
 		]);
 	}
 

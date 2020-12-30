@@ -72,7 +72,11 @@ use cmsgears\core\common\models\traits\mappers\FileTrait;
 use cmsgears\core\common\models\traits\mappers\FollowerTrait;
 use cmsgears\core\common\models\traits\mappers\OptionTrait;
 use cmsgears\core\common\models\traits\mappers\TagTrait;
+
 use cmsgears\cms\common\models\traits\resources\PageContentTrait;
+use cmsgears\cms\common\models\traits\mappers\BlockTrait;
+use cmsgears\cms\common\models\traits\mappers\ElementTrait;
+use cmsgears\cms\common\models\traits\mappers\WidgetTrait;
 
 use cmsgears\core\common\behaviors\AuthorBehavior;
 
@@ -330,17 +334,23 @@ class SubscriptionPlan extends \cmsgears\core\common\models\base\Entity implemen
 
 	    if( parent::beforeSave( $insert ) ) {
 
-			$this->type = $this->type ?? CoreGlobal::TYPE_DEFAULT;
-
+			// Default Status - New
 			if( empty( $this->status ) || $this->status <= 0 ) {
 
 				$this->status = self::STATUS_NEW;
 			}
 
-			if( !isset( $this->order ) || strlen( $this->order ) <= 0 ) {
+			// Default Order - zero
+			if( empty( $this->order ) || $this->order <= 0 ) {
 
 				$this->order = 0;
 			}
+
+			// Default Type - Default
+			$this->type = $this->type ?? CoreGlobal::TYPE_DEFAULT;
+
+			// Default Visibility - Private
+			$this->visibility = $this->visibility ?? self::VISIBILITY_PRIVATE;
 
 	        return true;
 	    }
@@ -358,14 +368,14 @@ class SubscriptionPlan extends \cmsgears\core\common\models\base\Entity implemen
 
 	public function getItems() {
 
-		return $this->hasOne( SubscriptionPlanItem::class, [ 'planId' => 'id' ] );
+		return $this->hasMany( SubscriptionPlanItem::class, [ 'planId' => 'id' ] );
 	}
 
 	public function getActiveItems() {
 
 		$planItemTable = SubscriptionPlanItem::tableName();
 
-		return $this->hasOne( SubscriptionPlanItem::class, [ 'planId' => 'id' ] )
+		return $this->hasMany( SubscriptionPlanItem::class, [ 'planId' => 'id' ] )
 			->where( "$planItemTable.status=" . SubscriptionPlanItem::STATUS_ACTIVE );
 	}
 
@@ -386,7 +396,7 @@ class SubscriptionPlan extends \cmsgears\core\common\models\base\Entity implemen
 
 	public function refreshTotal() {
 
-		$items = $this->activeItems;
+		$items = $this->items;
 
 		if( count( $items ) > 0 ) {
 
@@ -396,11 +406,14 @@ class SubscriptionPlan extends \cmsgears\core\common\models\base\Entity implemen
 
 			foreach( $items as $item ) {
 
-				$price += $item->price;
+				if( $item->isActive() ) {
 
-				$discount += $item->discount;
+					$price += $item->price;
 
-				$total += $item->total;
+					$discount += $item->discount;
+
+					$total += $item->total;
+				}
 			}
 
 			$this->price	= $price;

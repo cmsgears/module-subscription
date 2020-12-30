@@ -1,22 +1,29 @@
 <?php
 // Yii Imports
 use yii\helpers\Html;
-use yii\helpers\Url;
+
+// CMG Imports
+use cmsgears\subscription\common\config\SubscriptionGlobal;
 
 $core	= Yii::$app->core;
-$user	= Yii::$app->user->getIdentity();
+$user	= $core->getUser();
 ?>
-
-<?php if( $core->hasModule( 'subscription' ) && $user->isPermitted( 'subscription' ) ) { ?>
-	<div id="sidebar-subscription" class="collapsible-tab has-children <?php if( strcmp( $parent, 'sidebar-subscription' ) == 0 ) echo 'active'; ?>">
-		<div class="collapsible-tab-header clearfix">
-			<div class="colf colf5 wrap-icon"><span class="cmti cmti-newspaper"></span></div>
-			<div class="colf colf5x4">Subscriptions</div>
+<?php if( $core->hasModule( 'subscription' ) && $user->isPermitted( SubscriptionGlobal::PERM_SUBSCRIPTION_ADMIN ) ) { ?>
+	<div id="sidebar-subscription" class="collapsible-tab has-children <?= $parent === 'sidebar-subscription' ? 'active' : null ?>">
+		<div class="row tab-header">
+			<div class="tab-icon"><span class="cmti cmti-groups"></span></div>
+			<div class="tab-title">Members</div>
 		</div>
-		<div class="collapsible-tab-content clear <?php if( strcmp( $parent, 'sidebar-subscription' ) == 0 ) echo 'expanded visible'; ?>">
+		<div class="tab-content clear <?= $parent === 'sidebar-subscription' ? 'expanded visible' : null ?>">
 			<ul>
-				<li class='plan <?php if( strcmp( $child, 'plan' ) == 0 ) echo 'active'; ?>'><?= Html::a( 'Plans', ['/subscription/plan/all'] ) ?></li>
-				<li class='feature <?php if( strcmp( $child, 'feature' ) == 0 ) echo 'active'; ?>'><?= Html::a( 'Features', ['/subscription/feature/all'] ) ?></li>
+				<li class="member <?= $child === 'member' ? 'active' : null ?>"><?= Html::a( 'Members', [ '/subscription/member/all' ] ) ?></li>
+				<li class="invoice <?= $child === 'invoice' ? 'active' : null ?>"><?= Html::a( 'Invoices', [ '/subscription/invoice/all' ] ) ?></li>
+				<li class="payment <?= $child === 'payment' ? 'active' : null ?>"><?= Html::a( 'Payments', [ '/subscription/payment/all' ] ) ?></li>
+				<li class="plan <?= $child === 'plan' ? 'active' : null ?>"><?= Html::a( 'Membership Plans', [ '/subscription/plan/all' ] ) ?></li>
+				<li class="feature <?= $child === 'feature' ? 'active' : null ?>"><?= Html::a( 'Membership Feature', [ '/subscription/feature/all' ] ) ?></li>
+				<li class="plan-category <?= $child === 'plan-category' ? 'active' : null ?>"><?= Html::a( 'Plan Categories', [ '/subscription/plan/category/all' ] ) ?></li>
+				<li class="plan-tag <?= $child === 'plan-tag' ? 'active' : null ?>"><?= Html::a( 'Plan Tags', [ '/subscription/plan/tag/all' ] ) ?></li>
+				<li class="plan-template <?= $child === 'plan-template' ? 'active' : null ?>"><?= Html::a( 'Plan Templates', [ '/subscription/plan/template/all' ] ) ?></li>
 			</ul>
 		</div>
 	</div>

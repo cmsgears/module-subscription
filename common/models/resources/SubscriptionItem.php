@@ -45,8 +45,6 @@ use cmsgears\core\common\utilities\DateUtil;
  * @property integer $userId
  * @property integer $createdBy
  * @property integer $modifiedBy
- * @property integer $parentId
- * @property string $parentType
  * @property string $name
  * @property string $description
  * @property integer $status
@@ -54,7 +52,6 @@ use cmsgears\core\common\utilities\DateUtil;
  * @property float $price
  * @property float $discount
  * @property float $total
- * @property string $currency
  * @property date $startDate
  * @property date $endDate
  * @property datetime $createdAt
@@ -67,7 +64,7 @@ use cmsgears\core\common\utilities\DateUtil;
  *
  * @since 1.0.0
  */
-class SubscriptionItem extends \cmsgears\core\common\models\base\ModelResource implements IAuthor,
+class SubscriptionItem extends \cmsgears\core\common\models\base\Resource implements IAuthor,
 	IContent, IData, IGridCache {
 
 	// Variables ---------------------------------------------------
@@ -154,7 +151,7 @@ class SubscriptionItem extends \cmsgears\core\common\models\base\ModelResource i
 			[ [ 'subscriptionId', 'name' ], 'required' ],
 			[ [ 'id', 'content' ], 'safe' ],
 			// Text Limit
-			[ [ 'parentType', 'currency' ], 'string', 'min' => 1, 'max' => Yii::$app->core->mediumText ],
+			[ [ 'parentType' ], 'string', 'min' => 1, 'max' => Yii::$app->core->mediumText ],
 			[ 'name', 'string', 'min' => 1, 'max' => Yii::$app->core->xLargeText ],
 			[ 'description', 'string', 'min' => 1, 'max' => Yii::$app->core->xtraLargeText ],
 			// Other
@@ -186,8 +183,6 @@ class SubscriptionItem extends \cmsgears\core\common\models\base\ModelResource i
 		return [
 			'subscriptionId' => Yii::$app->subscriptionMessage->getMessage( SubscriptionGlobal::FIELD_SUBSCRIPTION ),
 			'userId' => Yii::$app->subscriptionMessage->getMessage( SubscriptionGlobal::FIELD_SUBSCRIBER ),
-			'parentId' => Yii::$app->coreMessage->getMessage( CoreGlobal::FIELD_PARENT ),
-			'parentType' => Yii::$app->coreMessage->getMessage( CoreGlobal::FIELD_PARENT_TYPE ),
 			'name' => Yii::$app->coreMessage->getMessage( CoreGlobal::FIELD_NAME ),
 			'description' => Yii::$app->coreMessage->getMessage( CoreGlobal::FIELD_DESCRIPTION ),
 			'status' => Yii::$app->coreMessage->getMessage( CoreGlobal::FIELD_STATUS ),
@@ -195,7 +190,6 @@ class SubscriptionItem extends \cmsgears\core\common\models\base\ModelResource i
 			'price' => Yii::$app->cartMessage->getMessage( CartGlobal::FIELD_PRICE ),
 			'discount' => Yii::$app->cartMessage->getMessage( CartGlobal::FIELD_DISCOUNT ),
 			'total' => Yii::$app->cartMessage->getMessage( CartGlobal::FIELD_TOTAL ),
-			'currency' => Yii::$app->cartMessage->getMessage( CartGlobal::FIELD_CURRENCY ),
 			'startDate' => Yii::$app->coreMessage->getMessage( CoreGlobal::FIELD_DATE_START ),
 			'endDate' => Yii::$app->coreMessage->getMessage( CoreGlobal::FIELD_DATE_END ),
 			'content' => Yii::$app->coreMessage->getMessage( CoreGlobal::FIELD_CONTENT ),

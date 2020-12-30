@@ -10,16 +10,18 @@
 namespace cmsgears\subscription\common\services\interfaces\resources;
 
 // CMG Imports
-use cmsgears\core\common\services\interfaces\base\IModelResourceService;
+use cmsgears\core\common\services\interfaces\base\IResourceService;
 
 /**
  * ISubscriptionPlanItemService declares methods specific to Subscription Plan Items.
  *
  * @since 1.0.0
  */
-interface ISubscriptionPlanItemService extends IModelResourceService {
+interface ISubscriptionPlanItemService extends IResourceService {
 
 	// Data Provider ------
+
+	public function getPageByPlanId( $planId, $config = [] );
 
 	// Read ---------------
 

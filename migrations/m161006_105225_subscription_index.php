@@ -43,14 +43,6 @@ class m161006_105225_subscription_index extends \cmsgears\core\common\base\Migra
 		// Sub Feature
 		$this->createIndex( 'idx_' . $this->prefix . 'subsc_feature_name', $this->prefix . 'subscription_feature', 'name' );
 		$this->createIndex( 'idx_' . $this->prefix . 'subsc_feature_type', $this->prefix . 'subscription_feature', 'type' );
-
-		// Sub Plan Item
-		$this->createIndex( 'idx_' . $this->prefix . 'subs_plan_item_type_p', $this->prefix . 'subscription_plan_item', 'parentType' );
-		//$this->createIndex( 'idx_' . $this->prefix . 'subs_plan_item_type_pipt', $this->prefix . 'subscription_plan_item', [ 'parentId', 'parentType' ] );
-
-		// Sub Item
-		$this->createIndex( 'idx_' . $this->prefix . 'subsc_item_type_p', $this->prefix . 'subscription_item', 'parentType' );
-		//$this->createIndex( 'idx_' . $this->prefix . 'subsc_item_type_pipt', $this->prefix . 'subscription_item', [ 'parentId', 'parentType' ] );
 	}
 
 	private function upDependent() {
@@ -78,19 +70,11 @@ class m161006_105225_subscription_index extends \cmsgears\core\common\base\Migra
 		// Sub Feature
 		$this->dropIndex( 'idx_' . $this->prefix . 'subsc_feature_name', $this->prefix . 'subscription_feature' );
 		$this->dropIndex( 'idx_' . $this->prefix . 'subsc_feature_type', $this->prefix . 'subscription_feature' );
-
-		// Sub Unit
-		$this->dropIndex( 'idx_' . $this->prefix . 'subs_plan_item_type_p', $this->prefix . 'subscription_plan_item' );
-		//$this->dropIndex( 'idx_' . $this->prefix . 'subs_plan_item_type_pipt', $this->prefix . 'subscription_plan_item' );
-
-		// Sub Item
-		$this->dropIndex( 'idx_' . $this->prefix . 'subsc_item_type_p', $this->prefix . 'subscription_item' );
-		//$this->dropIndex( 'idx_' . $this->prefix . 'subsc_item_type_pipt', $this->prefix . 'subscription_item' );
 	}
 
 	private function downDependent() {
 
-		// Page Meta
+		// Sub Plan Meta
 		$this->dropIndex( 'idx_' . $this->prefix . 'subs_plan_meta_name', $this->prefix . 'subscription_plan_meta' );
 		$this->dropIndex( 'idx_' . $this->prefix . 'subs_plan_meta_type', $this->prefix . 'subscription_plan_meta' );
 		//$this->dropIndex( 'idx_' . $this->prefix . 'subs_plan_meta_type_v', $this->prefix . 'subscription_plan_meta' );
