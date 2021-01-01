@@ -140,7 +140,7 @@ class ItemController extends \cmsgears\core\admin\controllers\base\Controller {
 
 	// ItemController ------------------------
 
-	public function actionAll( $pid, $config = [] ) {
+	public function actionAll( $pid ) {
 
 		Url::remember( Yii::$app->request->getUrl(), 'subscription-plan-items' );
 
@@ -163,7 +163,7 @@ class ItemController extends \cmsgears\core\admin\controllers\base\Controller {
 		throw new NotFoundHttpException( Yii::$app->coreMessage->getMessage( CoreGlobal::ERROR_NOT_FOUND ) );
 	}
 
-	public function actionCreate( $pid, $config = [] ) {
+	public function actionCreate( $pid ) {
 
 		$plan = $this->planService->getById( $pid );
 
@@ -192,7 +192,7 @@ class ItemController extends \cmsgears\core\admin\controllers\base\Controller {
 		throw new NotFoundHttpException( Yii::$app->coreMessage->getMessage( CoreGlobal::ERROR_NOT_FOUND ) );
 	}
 
-	public function actionUpdate( $id, $config = [] ) {
+	public function actionUpdate( $id ) {
 
 		$modelClass = $this->modelService->getModelClass();
 
@@ -219,7 +219,7 @@ class ItemController extends \cmsgears\core\admin\controllers\base\Controller {
 		throw new NotFoundHttpException( Yii::$app->coreMessage->getMessage( CoreGlobal::ERROR_NOT_FOUND ) );
 	}
 
-	public function actionDelete( $id, $config = [] ) {
+	public function actionDelete( $id ) {
 
 		$modelClass = $this->modelService->getModelClass();
 

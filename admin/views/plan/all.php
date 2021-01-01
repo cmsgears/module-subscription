@@ -25,11 +25,7 @@ $themeTemplates		= '@themes/admin/views/templates';
 		'cdate' => 'Created At', 'udate' => 'Updated At'
 	],
 	'filters' => [
-		'status' => [
-			'new' => 'New', 'active' => 'Active',
-			'blocked' => 'Blocked', 'uplift-block' => 'Uplift Block',
-			'terminated' => 'Terminated'
-		],
+		'status' => $filterStatusMap,
 		'model' => []
 	],
 	'reportColumns' => [

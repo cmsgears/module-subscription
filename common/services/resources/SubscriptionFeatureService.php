@@ -204,7 +204,7 @@ class SubscriptionFeatureService extends \cmsgears\core\common\services\base\Res
 
 		// Reporting --------
 
-		$config[ 'report-col' ]	= [
+		$config[ 'report-col' ]	= $config[ 'report-col' ] ?? [
 			'name' => "$modelTable.name",
 			'description' => "$modelTable.description",
 			'startDate' => "$modelTable.startDate",

@@ -176,7 +176,8 @@ class PlanController extends \cmsgears\core\admin\controllers\base\CrudControlle
 		return $this->render( 'all', [
 			'dataProvider' => $dataProvider,
 			'visibilityMap' => $modelClass::$visibilityMap,
-			'statusMap' => $modelClass::$urlRevStatusMap
+			'statusMap' => $modelClass::$subStatusMap,
+			'filterStatusMap' => $modelClass::$filterSubStatusMap
 		]);
 	}
 
@@ -221,7 +222,7 @@ class PlanController extends \cmsgears\core\admin\controllers\base\CrudControlle
 			'video' => $video,
 			'mvideo' => $mvideo,
 			'visibilityMap' => $modelClass::$visibilityMap,
-			'statusMap' => $modelClass::$statusMap,
+			'statusMap' => $modelClass::$subStatusMap,
 			'templatesMap' => $templatesMap,
 			'currencyMap' => $this->currencyMap
 		]);
@@ -273,7 +274,7 @@ class PlanController extends \cmsgears\core\admin\controllers\base\CrudControlle
 				'video' => $video,
 				'mvideo' => $mvideo,
 				'visibilityMap' => $modelClass::$visibilityMap,
-				'statusMap' => $modelClass::$statusMap,
+				'statusMap' => $modelClass::$subStatusMap,
 				'templatesMap' => $templatesMap,
 				'tagTemplateId' => $tagTemplateId,
 				'currencyMap' => $this->currencyMap

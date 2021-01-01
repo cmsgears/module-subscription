@@ -238,7 +238,7 @@ class SubscriptionService extends \cmsgears\core\common\services\base\ModelResou
 
 		// Reporting --------
 
-		$config[ 'report-col' ]	= [
+		$config[ 'report-col' ]	= $config[ 'report-col' ] ?? [
 			'title' => "$modelTable.title",
 			'startDate' => "$modelTable.startDate",
 			'endDate' => "$modelTable.endDate",

@@ -55,7 +55,7 @@ class FeatureController extends \cmsgears\core\admin\controllers\base\CrudContro
 
 	// CMG parent classes --------------------
 
-	// PlanController ------------------------
+	// FeatureController ---------------------
 
 	public function actionAll() {
 

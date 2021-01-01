@@ -203,7 +203,7 @@ class SubscriptionPlanItemService extends \cmsgears\core\common\services\base\Re
 
 		// Reporting --------
 
-		$config[ 'report-col' ]	= [
+		$config[ 'report-col' ]	= $config[ 'report-col' ] ?? [
 			'name' => "$modelTable.name",
 			'desc' => "$modelTable.description",
 			'status' => "$modelTable.status",
