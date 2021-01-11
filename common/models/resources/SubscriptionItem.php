@@ -112,6 +112,18 @@ class SubscriptionItem extends \cmsgears\core\common\models\base\Resource implem
 
 	// Constructor and Initialisation ------------------------------
 
+    public function init() {
+
+        parent::init();
+
+        if( $this->isNewRecord ) {
+
+            $this->price = 0;
+			$this->discount = 0;
+			$this->total = 0;
+        }
+    }
+
 	// Instance methods --------------------------------------------
 
 	// Yii interfaces ------------------------

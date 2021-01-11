@@ -208,7 +208,17 @@ class SubscriptionPlan extends \cmsgears\core\common\models\base\Entity implemen
 			'media' => self::STATUS_MEDIA, 'attributes' => self::STATUS_ATTRIBUTES,
 			'settings' => self::STATUS_SETTINGS, 'review' => self::STATUS_REVIEW
 		];
+
+        if( $this->isNewRecord ) {
+
+			$this->initial = 0;
+            $this->price = 0;
+			$this->discount = 0;
+			$this->total = 0;
+        }
 	}
+
+	// Constructor and Initialisation ------------------------------
 
 	// Instance methods --------------------------------------------
 

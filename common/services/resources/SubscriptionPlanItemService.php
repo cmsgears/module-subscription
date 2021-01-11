@@ -256,13 +256,12 @@ class SubscriptionPlanItemService extends \cmsgears\core\common\services\base\Re
 		$admin = isset( $config[ 'admin' ] ) ? $config[ 'admin' ] : false;
 
 		$attributes	= isset( $config[ 'attributes' ] ) ? $config[ 'attributes' ] : [
-			'name', 'description', 'status',
-			'startDate', 'endDate', 'content'
+			'name', 'description', 'startDate', 'endDate', 'content'
 		];
 
 		if( $admin ) {
 
-			$attributes	= ArrayHelper::merge( $attributes, [ 'order' ] );
+			$attributes	= ArrayHelper::merge( $attributes, [ 'status', 'order' ] );
 		}
 
 		$date = DateUtil::getDate();
@@ -270,6 +269,8 @@ class SubscriptionPlanItemService extends \cmsgears\core\common\services\base\Re
 		if( !empty( $model->endDate ) && DateUtil::greaterThan( $model->endDate, $date ) ) {
 
 			$model->status = SubscriptionPlanItem::STATUS_EXPIRED;
+
+			$attributes	= ArrayHelper::merge( $attributes, [ 'status' ] );
 		}
 
 		// Update Item Total
@@ -308,7 +309,7 @@ class SubscriptionPlanItemService extends \cmsgears\core\common\services\base\Re
 
 		$date = DateUtil::getDate();
 
-		if( !$model->status == SubscriptionPlanItem::STATUS_EXPIRED &&
+		if( $model->status != SubscriptionPlanItem::STATUS_EXPIRED &&
 			( empty( $model->endDate ) || DateUtil::greaterThan( $model->endDate, $date ) ) ) {
 
 			$this->updateStatus( $model, SubscriptionPlanItem::STATUS_EXPIRED );
@@ -316,12 +317,6 @@ class SubscriptionPlanItemService extends \cmsgears\core\common\services\base\Re
 	}
 
 	// Delete -------------
-
-	public function delete( $model, $config = [] ) {
-
-		// Delete model
-		return parent::delete( $model, $config );
-	}
 
 	// Bulk ---------------
 
