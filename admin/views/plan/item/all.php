@@ -15,52 +15,53 @@ $moduleTemplates	= '@apwen/module-subscription/admin/views/templates';
 $themeTemplates		= '@themes/admin/views/templates';
 ?>
 <?= DataGrid::widget([
-	'dataProvider' => $dataProvider, 'baseUrl' => $baseUrl, 'add' => true, 'addUrl' => 'create', 'data' => [],
+	'dataProvider' => $dataProvider, 'baseUrl' => $baseUrl, 'add' => true, 'addUrl' => "create?pid=$plan->id", 'data' => [],
 	'title' => $this->title, 'options' => [ 'class' => 'grid-data grid-data-admin' ],
 	'searchColumns' => [
-		'name' => 'Name', 'title' => 'Title', 'desc' => 'Description'
+		'name' => 'Name', 'desc' => 'Description'
 	],
 	'sortColumns' => [
-		'name' => 'Name', 'title' => 'Title', 'status' => 'Status',
+		'name' => 'Name', 'status' => 'Status',
+		'price' => 'Price', 'discount' => 'Discount', 'total' => 'Total',
 		'cdate' => 'Created At', 'udate' => 'Updated At'
 	],
 	'filters' => [
-		'status' => $filterStatusMap,
+		'status' => [
+			'new' => 'New', 'active' => 'Active',
+			'expired' => 'Expired'
+		],
 		'model' => []
 	],
 	'reportColumns' => [
 		'name' => [ 'title' => 'Name', 'type' => 'text' ],
-		'title' => [ 'title' => 'Title', 'type' => 'text' ],
 		'desc' => [ 'title' => 'Description', 'type' => 'text' ],
 		'status' => [ 'title' => 'Status', 'type' => 'select', 'options' => $statusMap ]
 	],
 	'bulkPopup' => 'popup-grid-bulk',
 	'bulkActions' => [
 		'model' => [
+			'activate' => 'Activate', 'expire' => 'Expire',
 			'delete' => 'Delete'
 		]
 	],
 	'header' => false, 'footer' => true,
-	'grid' => true, 'columns' => [ 'root' => 'colf colf15', 'factor' => [ null, null, 'x2', 'x3', null, null, null, null, 'x2', 'x2' ] ],
+	'grid' => true, 'columns' => [ 'root' => 'colf colf15', 'factor' => [ null, 'x4', null, null, null, null, 'x2', 'x2', 'x2' ] ],
 	'gridColumns' => [
 		'bulk' => 'Action',
-		'icon' => [ 'title' => 'Icon', 'generate' => function( $model ) {
-			$icon = "<div class='align align-center'><i class=\"$model->icon\"></i></div>" ; return $icon;
-		}],
 		'name' => 'Name',
-		'title' => 'Title',
 		'price' => 'Price',
 		'discount' => 'Discount',
 		'total' => 'Total',
-		'currency' => 'Currency',
 		'status' => [ 'title' => 'Status', 'generate' => function( $model ) { return $model->getStatusStr(); } ],
+		'startDate' => 'Start Date',
+		'endDate' => 'End Date',
 		'actions' => 'Actions'
 	],
 	'gridCards' => [ 'root' => 'col col12', 'factor' => 'x3' ],
 	'templateDir' => "$themeTemplates/widget/grid",
-	//'dataView' => "$moduleTemplates/grid/data/plan",
-	//'cardView' => "$moduleTemplates/grid/cards/plan",
-	'actionView' => "$moduleTemplates/grid/actions/plan"
+	//'dataView' => "$moduleTemplates/grid/data/item",
+	//'cardView' => "$moduleTemplates/grid/cards/item",
+	//'actionView' => "$moduleTemplates/grid/actions/item"
 ])?>
 
 <?= Popup::widget([
