@@ -152,7 +152,6 @@ class SubscriptionPlanItem extends \cmsgears\core\common\models\base\Resource im
 			// Unique
 			[ 'name', 'unique', 'targetAttribute' => [ 'planId', 'name' ] ],
 			// Text Limit
-			[ [ 'parentType' ], 'string', 'min' => 1, 'max' => Yii::$app->core->mediumText ],
 			[ 'name', 'string', 'min' => 1, 'max' => Yii::$app->core->xLargeText ],
 			[ 'description', 'string', 'min' => 1, 'max' => Yii::$app->core->xtraLargeText ],
 			// Other

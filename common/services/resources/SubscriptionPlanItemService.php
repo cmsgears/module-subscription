@@ -256,7 +256,8 @@ class SubscriptionPlanItemService extends \cmsgears\core\common\services\base\Re
 		$admin = isset( $config[ 'admin' ] ) ? $config[ 'admin' ] : false;
 
 		$attributes	= isset( $config[ 'attributes' ] ) ? $config[ 'attributes' ] : [
-			'name', 'description', 'startDate', 'endDate', 'content'
+			'name', 'description', 'startDate', 'endDate', 'content',
+			'price', 'discount', 'total'
 		];
 
 		if( $admin ) {
